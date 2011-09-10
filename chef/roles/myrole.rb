@@ -14,6 +14,6 @@ override_attributes "zabbixaws" => {
 }
 run_list [
         "recipe[zabbix::agent]",
-        "recipe[zabbix::agent-scripts]"
+        "recipe[zabbix-aws::agent-scripts]"
 ]
 
