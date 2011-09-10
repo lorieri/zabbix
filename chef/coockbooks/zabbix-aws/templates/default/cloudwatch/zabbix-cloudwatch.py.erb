@@ -1,0 +1,79 @@
+#!/usr/bin/python2.7
+
+from optparse import OptionParser
+from boto.ec2.cloudwatch import CloudWatchConnection
+import datetime
+import os, time
+
+#amazon uses UTC at cloudwatch
+os.environ['TZ'] = 'UTC'
+time.tzset()
+
+
+interval = 60
+parser = OptionParser(usage='%prog [-h] [--help]', version='%prog 0.1')
+parser.add_option('-d', '--dimension', dest='dimension',
+                  default=None, help='Cloudwatch Dimension')
+parser.add_option('-n', '--namespace', dest='namespace',
+                  default='AWS/EC2', help='Cloudwatch Namespace')
+parser.add_option('-m', '--metric', dest='metric', 
+                  default='NetworkOut', help='Cloudwatch Metric')
+parser.add_option('-s', '--statistic', dest='statistic', 
+                  default='Sum', help='Cloudwatch Statistic')
+parser.add_option('-a', '--account', dest='account', help='Account')
+
+(options, args) = parser.parse_args()
+if len(args) > 0:
+    parser.error('Too many arguments')
+
+end_time = datetime.datetime.now()
+
+# adding 65 seconds due amazon caracteristic
+end_time = end_time - datetime.timedelta(seconds=65)
+
+start_time = end_time - datetime.timedelta(seconds=interval)
+
+if not options.account:
+   parser.error('Missing account')
+
+
+# I know it could be better
+# you should know I can't do it better yet :P
+
+if options.account == '<%= @node[:zabbixaws][:account1][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account1][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account1][:secret] %>'
+elif options.account == '<%= @node[:zabbixaws][:account2][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account2][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account2][:secret] %>'
+elif options.account == '<%= @node[:zabbixaws][:account3][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account3][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account3][:secret] %>'
+elif options.account == '<%= @node[:zabbixaws][:account4][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account4][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account4][:secret] %>'
+elif options.account == '<%= @node[:zabbixaws][:account5][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account5][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account5][:secret] %>'
+
+cloudwatch = CloudWatchConnection(aws_access_key_id=aws_key,
+                                  aws_secret_access_key=aws_secret,
+                                  is_secure=True)
+
+cloudwatch_result = None
+
+
+if options.dimension:
+    dimension = {}
+    dimensions = options.dimension.split('=') 
+    dimension[dimensions[0]] = dimensions[1]
+    cloudwatch_result = cloudwatch.get_metric_statistics(interval, start_time, end_time, options.metric, options.namespace, options.statistic, dimensions=dimension)[0]
+  
+else:
+    cloudwatch_result = cloudwatch.get_metric_statistics(interval, start_time, end_time, options.metric, options.namespace, options.statistic)[0]
+
+
+cloudwatch_result = float(cloudwatch_result[options.statistic])
+
+print cloudwatch_result
+

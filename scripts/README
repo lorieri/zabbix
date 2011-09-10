@@ -1,0 +1,5 @@
+For scripts, check the dir:
+
+ chef/cookbooks/zabbix-aws/files/
+ chef/cookbooks/zabbix-aws/templates/
+

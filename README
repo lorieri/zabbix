@@ -1,0 +1,16 @@
+Zabbix - AWS
+
+Those are some automations I've made for AWS
+
+If you like opscode's chef, start with this:
+http://community.opscode.com/cookbooks/zabbix
+
+you will have to include the line bellow in the agent configuration:
+Include=/etc/zabbix/agentd.d/
+
+
+Dirs:
+
+ templates/  <- zabbix templates and instalations instructions
+ chef/       <- chef cookbooks and roles
+ scripts/    <- instruction to go to chef dir :P

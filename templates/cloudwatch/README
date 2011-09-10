@@ -1,0 +1,66 @@
+Cloudwatch monitoring for Zabbix 1.8.5
+
+Goals: persist cloudwatch metrics
+
+Examples of:
+     - Item, trigers, graphs for EC2, RDS and Autoscalling
+
+Requirenments: 
+
+ - Python boto at the server that will run the collector script
+   $ sudo apt-get install python-boto (or use chef's recipe below)
+
+Warning: even though it is cheap, you pay per thousands requests
+	 to get Cloudwatch information using the API
+
+         items are storing 3 months non-aggregated information
+         after that time you still can see aggregated
+         avg,min,max values
+
+         trends are stored for 5 years, you may have a good DB for that
+
+How to:
+
+- Understand how Cloudwatch works and what information you can get from it
+  to add more items
+- Create an AMI account with read-only access to Cloudwatch
+- Import the template into zabbix server
+- Chose a host (can be the zabbix server) to run the scripts 
+- Configure the macros variables in the host configuration, like this:
+  {$MYACCOUNT} = myawsaccount
+  {$AUTOSCALLINGGROUPNAME} = my_autoscalling_groupname
+  {$RDSINSTANCE} = my_DBInstanceIdentifier
+
+  you can ignore the macros you not use,
+  disable the related triggers though
+
+- Link the template in the host configuration
+ 
+- Install the scripts using chef
+  - Use the chef's zabbix-aws::agent-scripts recipe at the hosts' role
+    * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
+  - Use the manual instalation below to understand how does it work
+
+- Include your account (so far 1 to 5) in the role chef/roles/myrole.rb
+
+- Install the scripts manually
+  In the server that will run the script
+    - copy the file template/default/cloudwatch/zabbix-cloudwatch.py.erb
+      in the chef zabbix-aws cookbook's dir (chef/cookbook/zabbix-aws)
+      to /usr/local/bin/zabbix-cloudwatch.py and edit it with your accounts
+    - create the directory /etc/zabbix/agentd.d/
+    - copy file files/default/cloudwatch/cloudwatch.conf
+      in the same chef coockbook to /etc/zabbix/agentd.d/cloudwatch.conf
+    - in the server that will run the collector script:
+         $ sudo mkdir /etc/zabbix/agentd.d
+         $ echo 'Include=/etc/zabbix/agentd.d/' |
+           sudo tee -a /etc/zabbix/agentd.conf
+         $ sudo /etc/init.d/zabbix-agent restart
+         $ sudo chown -R zabbix /etc/zabbix/agentd.d
+         $ sudo chown -R zabbix /usr/local/bin/zabbix-aws*
+         $ sudo chmod 600 /etc/zabbix/agentd.d/*
+         $ sudo chmod 700 /usr/local/bin/zabbix-aws*
+
+Note: there is an item called: Autoscalling.deregister, to be used with the
+      auto-register script, ignore it until you autoregister machines,
+      check the chef's zabbix-autoregister recipe for details
