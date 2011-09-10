@@ -5,7 +5,7 @@ Those are some automations I've made for AWS
 If you like opscode's chef, start with this:
 http://community.opscode.com/cookbooks/zabbix
 
-you will have to include the line bellow in the agent configuration:
+you will have to include the line below in the agent configuration:
 Include=/etc/zabbix/agentd.d/
 
 
