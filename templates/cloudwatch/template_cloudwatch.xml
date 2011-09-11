@@ -65,7 +65,7 @@
           <comments></comments>
         </trigger>
         <trigger>
-          <description>Error running AutoScalling deregister script</description>
+          <description>Error running AutoScaling deregister script</description>
           <type>0</type>
           <expression>{Template_CloudWatch:cloudwatch.deregister.last(0)}&gt;0</expression>
           <url></url>
@@ -92,18 +92,18 @@
           <comments></comments>
         </trigger>
         <trigger>
-          <description>Less than the minumum required machines in the Autoscalling pool</description>
+          <description>Less than the minumum required machines in the Autoscaling pool</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}].last(0)}&lt;{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}].last(0)}</expression>
+          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}&lt;{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
           <comments></comments>
         </trigger>
         <trigger>
-          <description>Autoscalling reached max instances</description>
+          <description>Autoscaling reached max instances</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}].last(0)}={Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}].last(0)}</expression>
+          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}={Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -417,7 +417,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="3">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupDesiredCapacity</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -448,7 +448,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="3">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupInServiceInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -479,7 +479,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="3">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupMaxSize</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -510,7 +510,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="3">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupMinSize</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -541,7 +541,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="3">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupPendingInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -572,7 +572,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="3">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupTerminatingInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -603,7 +603,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="3">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupTotalInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -634,7 +634,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="0">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.Max.NetworkIn</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -665,7 +665,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="0">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.NetworkIn</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -696,7 +696,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="0">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.Max.NetworkOut</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -727,7 +727,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]" value_type="0">
+        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.NetworkOut</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -1198,7 +1198,7 @@
             </graph_element>
           </graph_elements>
         </graph>
-        <graph name="Cloudwatch Autoscalling Instances" width="900" height="200">
+        <graph name="Cloudwatch Autoscaling Instances" width="900" height="200">
           <ymin_type>1</ymin_type>
           <ymax_type>0</ymax_type>
           <ymin_item_key></ymin_item_key>
@@ -1213,7 +1213,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>BBBBBB</color>
@@ -1222,7 +1222,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>0</drawtype>
               <sortorder>1</sortorder>
               <color>444444</color>
@@ -1231,7 +1231,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>2</sortorder>
               <color>FFFF33</color>
@@ -1240,7 +1240,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>3</sortorder>
               <color>00EE00</color>
@@ -1249,7 +1249,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>4</drawtype>
               <sortorder>4</sortorder>
               <color>3333FF</color>
@@ -1258,7 +1258,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>0</drawtype>
               <sortorder>5</sortorder>
               <color>EE0000</color>
@@ -1267,7 +1267,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>0</drawtype>
               <sortorder>6</sortorder>
               <color>555555</color>
@@ -1278,7 +1278,7 @@
             </graph_element>
           </graph_elements>
         </graph>
-        <graph name="CloudWatch Autoscalling Traffic - Peaks" width="900" height="200">
+        <graph name="CloudWatch Autoscaling Traffic - Peaks" width="900" height="200">
           <ymin_type>1</ymin_type>
           <ymax_type>0</ymax_type>
           <ymin_item_key></ymin_item_key>
@@ -1293,7 +1293,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>3333FF</color>
@@ -1302,7 +1302,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>1</sortorder>
               <color>009900</color>
@@ -1311,7 +1311,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>2</drawtype>
               <sortorder>2</sortorder>
               <color>0000AA</color>
@@ -1320,7 +1320,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>2</drawtype>
               <sortorder>3</sortorder>
               <color>007700</color>
@@ -1331,7 +1331,7 @@
             </graph_element>
           </graph_elements>
         </graph>
-        <graph name="CloudWatch Autoscalling Traffic" width="900" height="200">
+        <graph name="CloudWatch Autoscaling Traffic" width="900" height="200">
           <ymin_type>1</ymin_type>
           <ymax_type>0</ymax_type>
           <ymin_item_key></ymin_item_key>
@@ -1346,7 +1346,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>3333FF</color>
@@ -1355,7 +1355,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALLINGGROUPNAME}]">
+            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>1</sortorder>
               <color>009900</color>
