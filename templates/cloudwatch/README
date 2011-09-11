@@ -23,12 +23,12 @@ How to:
 
 - Understand how Cloudwatch works and what information you can get from it
   to add more items
-- Create an AMI account with read-only access to Cloudwatch
+- Create an IAM account with read-only access to Cloudwatch
 - Import the template into zabbix server
 - Chose a host (can be the zabbix server) to run the scripts 
 - Configure the macros variables in the host configuration, like this:
   {$MYACCOUNT} = myawsaccount
-  {$AUTOSCALLINGGROUPNAME} = my_autoscalling_groupname
+  {$AUTOSCALINGGROUPNAME} = my_autoscaling_groupname
   {$RDSINSTANCE} = my_DBInstanceIdentifier
 
   you can ignore the macros you not use,
@@ -61,6 +61,6 @@ How to:
          $ sudo chmod 600 /etc/zabbix/agentd.d/*
          $ sudo chmod 700 /usr/local/bin/zabbix-aws*
 
-Note: there is an item called: Autoscalling.deregister, to be used with the
+Note: there is an item called: Autoscaling.deregister, to be used with the
       auto-register script, ignore it until you autoregister machines,
       check the chef's zabbix-autoregister recipe for details
