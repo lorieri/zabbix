@@ -3,7 +3,7 @@ Cloudwatch monitoring for Zabbix 1.8.5
 Goals: persist cloudwatch metrics
 
 Examples of:
-     - Item, trigers, graphs for EC2, RDS and Autoscalling
+     - Item, trigers, graphs for EC2, RDS and Autoscaling
 
 Requirenments: 
 
