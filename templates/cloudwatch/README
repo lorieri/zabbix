@@ -1,6 +1,6 @@
 Cloudwatch monitoring for Zabbix 1.8.5
 
-Goals: persist cloudwatch metrics
+Goals: persist cloudwatch metrics for more than couple of weeks
 
 Examples of:
      - Item, trigers, graphs for EC2, RDS and Autoscaling
@@ -64,3 +64,52 @@ How to:
 Note: there is an item called: Autoscaling.deregister, to be used with the
       auto-register script, ignore it until you autoregister machines,
       check the chef's zabbix-autoregister recipe for details
+             .---------------.
+             | zabbix server |          (Server and Agent can be the same host)
+             |        :10051 |
+  .----------------.         |
+  | T  .------------.        |
+  | E  | H  .-------.        |
+  | M  | O  | ITEMS |        |                   .---------------------------.
+  | P  | S  | ITEMS |        |------------------>| request:{name,ip,item}    |
+  | L  | T  | ITEMS |        |                   '---------------------------'
+  | A  |    | ITEMS |        |                         *not dns name :(
+  | T  |    | ITEMS |        |                                 |
+  | E  |    | ITEMS |        |                                 |
+  '----'----'-------'        |                                 v
+             '---------------'                      .--------------------.
+                     ^                              | AWS security group |
+                     |                              '--------------------'
+          .--------------------.                               |
+          | AWS security group |                               v
+          '--------------------'               .------------------------------.
+                     ^                         | zabbix agent                 |
+                     |                         | :10050                       |
+       .--------------------------.            |                              |
+       | return: {name,key,value} |<-----------| name: agentd.conf's hostname |
+       '--------------------------'            |                              |
+             *not dns name :(         .---------------------------------------.
+                                      | /etc/zabbix/agentd.d/cloudwatch.conf  |
+                                      |                                       |
+               .--------------------->.---------------------------------------.
+               |                      | keys:                                 |
+               |                      |                                       |
+               |                      | UserParameter=cloudwatch.all[*]       |
+               |                      | UserParameter=cloudwatch.dimension[*] |
+               |                      '---------------------------------------'
+               |                                          |
+               |                                          v
+               |                      .---------------------------------------.
+               |                      | /usr/local/bin/zabbix-cloudwatch.py   |
+ .----------------------------.       |                                       |
+ | chef                       |       | accounts: aws_key,aws_secret          |
+ | .--------------------------.       '---------------------------------------'
+ | | role: myrole.rb          |
+ | |   - accounts information |
+ | |     .--------------------.-------------------------------------.
+ | '-----| cookbook:          | install:                            |
+ |       |   - static scripts | /etc/zabbix/agent.d/cloudwatch.conf |
+ |       |   - template to    |                                     |
+ |       |     configure the  | configure and install:              |
+ |       |     accounts       | /usr/local/bin/zabbix-cloudwatch.py |
+ '-------'--------------------'-------------------------------------'
