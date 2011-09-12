@@ -50,7 +50,7 @@ How to:
       to /usr/local/bin/zabbix-cloudwatch.py and edit it with your accounts
     - create the directory /etc/zabbix/agentd.d/
     - copy file files/default/cloudwatch/cloudwatch.conf
-      in the same chef coockbook to /etc/zabbix/agentd.d/cloudwatch.conf
+      in the same chef cookbook to /etc/zabbix/agentd.d/cloudwatch.conf
     - in the server that will run the collector script:
          $ sudo mkdir /etc/zabbix/agentd.d
          $ echo 'Include=/etc/zabbix/agentd.d/' |
