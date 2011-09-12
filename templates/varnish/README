@@ -1,0 +1,114 @@
+Varnish example monitoring for Zabbix 1.8.5
+
+Goals: Use varnish for a template that will be used as example for group 
+       aggregation, for the auto-register script, and for autoscaling
+       de-registratrion 
+
+Examples of:
+     - Item, trigers, graphs, aggregations, trapper items usage
+     - Calculated items for cache usage (zabbix have some bugs on it)
+
+Requirenments: 
+
+ - Varnish
+
+Note: Those are 2 templates
+      - one for each machine
+      - another to centralize and group values to persist data
+      - some graphs have scale in both sides
+
+      items are storing 3 months non-aggregated information after that time
+      you still can see aggregated avg,min,max values as trends, and tends 
+      are stored for 5 years, you may have a good DB for that
+
+Components:
+   - A template calle "Template_Varnish"
+       - A group called "Varnish"
+   - A template called "Template_VarnishAgg" to aggregate group values
+
+
+How to:
+
+Option for 1 varnish group:
+
+- Import the both templates into zabbix server
+- In the host configuration, link the Template_Varnish
+- Configure Template_VarnishAGG macros:
+   - {$MYGROUP} = Varnish
+
+Option for N varnish groups:
+
+- Create a Template_VarnishMyGroup
+     - Change the group "VarnishMyGroup" inside the Template configuration
+     - link the Template_Varnish on this template
+- Clone the Template_VarnishAgg to Template_VarnishMyGroupAgg
+     - configure the macro to your new group
+     - {$MYGROUP} = VarnishMyGroup
+
+- Put hosts in the template Template_VarnishMyGroup
+     - or use the auto-register script
+ 
+Install the scripts using chef
+  - Use the chef's zabbix-aws::agent-varnish recipe at the hosts' role
+    * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
+  - Use the manual instalation below to understand how does it work
+
+  In case you use the auto-register script:
+  - Create a tag in the hosts's role like "Varnish" or "VarnishMyGroup"
+      - it will be used to trigger the auto-register script
+      - once it is registered, the tag will change to <mytag>-REGISTERED
+
+Install the scripts manually
+  In the varnish servers that will run the script
+    - create the directory /etc/zabbix/agentd.d/
+         $ sudo mkdir /etc/zabbix/agentd.d
+    - copy file files/default/varnish/varnish.conf
+      in the same chef cookbook to /etc/zabbix/agentd.d/varnish.conf
+    - include the configurations in the agentd:
+         $ echo 'Include=/etc/zabbix/agentd.d/' |
+           sudo tee -a /etc/zabbix/agentd.conf
+         $ sudo chown -R zabbix /etc/zabbix/agentd.d
+         $ sudo chmod 600 /etc/zabbix/agentd.d/*
+         $ sudo /etc/init.d/zabbix-agent restart
+
+
+             .---------------.
+             | zabbix server |          (Server and Agent can be the same host)
+             |        :10051 |
+  .----------------.         |
+  | T  .-----------.         |
+  | E  | H  .-------.        |
+  | M  | O  | ITEM -------------.               .---------------------------.
+  | P  | S  '-------'        |   '------------->| request:{name,ip,item}    |
+  | L  | T         |         |     (ask for     '---------------------------'
+  | A  |    .--------------. |       the list)         *not dns name :(
+  | T  |    | ITEM TRAPPER | |                                 |
+  | E  |    | ITEM TRAPPER | |                                 |
+  '----'----| ITEM TRAPPER | |                                 v
+            | ...          |-'                      .--------------------.
+            '--------------'                        | AWS security group |
+                     ^                              '--------------------'
+                     |                                         |
+          .--------------------.                               v
+          | AWS security group |               .------------------------------.
+          '--------------------'               | zabbix agent                 |
+                     ^                         | :10050                       |
+                     |                         |                              |
+                     |                         | name: agentd.conf's hostname |
+  .------------------------.                   |                              |
+  | zabbix_sender          |          .---------------------------------------.
+  |   file list with:      |          | /etc/zabbix/agentd.d/varnish.conf     |
+  |         name,key,value |          |                                       |
+  |         ...            |<---------|---------------------------------------.
+  '------------------------'          | keys:                                 |
+                                      |                                       |
+                                      | UserParameter=varnish_collect[*]      |
+ .----------------------------.       '---------------------------------------'
+ | chef                       |                        ^                     
+ | .--------------------------.                        |                     
+ | | role: myvarnish.rb       |                        |
+ | |     .--------------------.-------------------------------------.
+ | '-----| cookbook:          | install:                            |
+ |       |   - static conf    | /etc/zabbix/agent.d/varnish.conf    |
+ '-------'--------------------'-------------------------------------'
+     (can contain recipe+tag to auto-register)
