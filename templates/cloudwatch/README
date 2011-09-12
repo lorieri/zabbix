@@ -64,6 +64,8 @@ How to:
 Note: there is an item called: Autoscaling.deregister, to be used with the
       auto-register script, ignore it until you autoregister machines,
       check the chef's zabbix-autoregister recipe for details
+
+
              .---------------.
              | zabbix server |          (Server and Agent can be the same host)
              |        :10051 |

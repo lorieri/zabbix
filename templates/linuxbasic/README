@@ -1,0 +1,63 @@
+Linux basic monitoring for Zabbix 1.8.5
+
+Goals: add abstraction to default linux template, optimization for EC2
+
+
+Description:
+
+  Added "cpu steal time" for vms and EC2 instances
+
+  Abstraction is done by:
+    - adding all possible devices to the graphs and triggers
+    - instead of looking to partitions space, looking to directory spaces
+      - you may end up with duplicated items, but it is better than configure
+        all machines one by one
+    - Using percentage instead of real numbers to configure graphs and triggers
+
+  It also removes some default linux monitoring for inetd, smtpd, etc.
+
+
+Examples of:
+     - Abstracted items, triggers and graphs 
+
+Notes:
+     - remove/change items accordingly to your needs
+     - this template is fork of the default linux template
+     - pay attention, some graphics have scales in both sides      
+
+Requirenments: none, only the default agent running in the clients
+
+How to:
+
+  - Import the template
+  - Link it to the instances
+    (it can be done by the auto-register script)
+  - if you have different devices, add them to the triggers and graphs
+  - you can group related triggers to get less noise
+
+
+             .---------------.
+             | zabbix server |          (Server and Agent can be the same host)
+             |        :10051 |
+  .----------------.         |
+  | T  .------------.        |
+  | E  | H  .-------.        |
+  | M  | O  | ITEMS |        |                   .---------------------------.
+  | P  | S  | ITEMS |        |------------------>| request:{name,ip,item}    |
+  | L  | T  | ITEMS |        |                   '---------------------------'
+  | A  |    | ITEMS |        |                         *not dns name :(
+  | T  |    | ITEMS |        |                                 |
+  | E  |    | ITEMS |        |                                 |
+  '----'----'-------'        |                                 v
+             '---------------'                      .--------------------.
+                     ^                              | AWS security group |
+                     |                              '--------------------'
+          .--------------------.                               |
+          | AWS security group |                               v
+          '--------------------'               .------------------------------.
+                     ^                         | zabbix agent                 |
+                     |                         | :10050                       |
+       .--------------------------.            |                              |
+       | return: {name,key,value} |<-----------| name: agentd.conf's hostname |
+       '--------------------------'            '------------------------------'
+             *not dns name :(         
