@@ -55,11 +55,11 @@ How to:
          $ sudo mkdir /etc/zabbix/agentd.d
          $ echo 'Include=/etc/zabbix/agentd.d/' |
            sudo tee -a /etc/zabbix/agentd.conf
-         $ sudo /etc/init.d/zabbix-agent restart
          $ sudo chown -R zabbix /etc/zabbix/agentd.d
          $ sudo chown -R zabbix /usr/local/bin/zabbix-aws*
          $ sudo chmod 600 /etc/zabbix/agentd.d/*
          $ sudo chmod 700 /usr/local/bin/zabbix-aws*
+         $ sudo /etc/init.d/zabbix-agent restart
 
 Note: there is an item called: Autoscaling.deregister, to be used with the
       auto-register script, ignore it until you autoregister machines,
