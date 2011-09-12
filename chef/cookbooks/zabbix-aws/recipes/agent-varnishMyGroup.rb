@@ -6,7 +6,8 @@ untag("zabbix-Varnish")
 untag("zabbix-Varnish-REGISTERED")
 
 # added coorect tag
-if not tagged?("zabbix-VarnishMyGroup-REGISTERED")
-        tag('zabbix-VarnishMyGroup')
+if not tagged?('zabbix-VarnishMyGroup-REGISTERED')
+	if not tagged?("zabbix-VarnishMyGroup")
+	        tag('zabbix-VarnishMyGroup')
+	end
 end
-

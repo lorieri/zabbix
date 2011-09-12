@@ -12,5 +12,6 @@ Include=/etc/zabbix/agentd.d/
 Dirs:
 
  templates/  <- zabbix templates and instalations instructions
- chef/       <- chef cookbooks and roles
+ chef/       <- chef cookbooks, roles 
+                and auto-register/de-register instructions
  scripts/    <- instruction to go to chef dir :P
