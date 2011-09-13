@@ -1,6 +1,8 @@
-Zabbix - AWS
+Zabbix - improvements
 
-Those are some automations I've made for AWS
+Those are some automations I've made initially for AWS 
+The concepts are not exclusive for AWS, like abstractions, auto and de-register,
+vms' steal cpu time, aggregations by groups, etc...
 
 If you like opscode's chef, start with this:
 http://community.opscode.com/cookbooks/zabbix
@@ -10,4 +12,4 @@ Dirs:
  templates/  <- zabbix templates and instalations instructions
  chef/       <- chef cookbooks, roles 
                 and auto-register/de-register instructions
- scripts/    <- instruction to go to chef dir :P
+ scripts/    <- instruction to go to chef dir ang get them :P
