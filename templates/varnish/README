@@ -33,26 +33,29 @@ How to:
 
 Option for 1 varnish group:
 
-- Import the both templates into zabbix server
-- In the host configuration, link the Template_Varnish
-- Configure Template_VarnishAGG macros:
+- Import both templates into zabbix server
+- In a varnish host configuration, link the Template_Varnish
+- In a host outside the varnish group, link the Template_VarnishAgg
+   - you can use the zabbix server host for this
+- Configure Template_VarnishAgg macros in the outside host:
    - {$MYGROUP} = Varnish
 
 Option for N varnish groups:
 
 - Create a Template_VarnishMyGroup
-     - Change the group "VarnishMyGroup" inside the Template configuration
-     - link the Template_Varnish on this template
+   - Change the group to "VarnishMyGroup" inside the Template configuration
+   - link the Template_Varnish on this template
 - Clone the Template_VarnishAgg to Template_VarnishMyGroupAgg
-     - you need a different host for each aggregation, or you change the
-       macro name in all items if you want to link this template in the same
-       host for all group aggregations. I recommend you run all togheter and
-       use the host that will run all scripts. In most cases it is the host 
-       of the zabbix server itself
+     - you need a different host for each aggregation, or you can change the
+       macro name in all items if you want to link the cloned  template in
+       the same host for all group aggregations. I recommend you run all
+       togheter in host that will run all scripts. In most cases it is the
+       host of the zabbix server itself
      - configure the macro to your new group in the host configuration
-     - {$MYGROUP} = VarnishMyGroup
+         - {$MYGROUP} = VarnishMyGroup
+         - or {$MYGROUP2} = VarnishMyGroup , if you changed all the items
 
-- Put hosts in the template Template_VarnishMyGroup
+- Link you varnish hosts in the template Template_VarnishMyGroup
      - or use the auto-register script
  
 Install the scripts using chef
