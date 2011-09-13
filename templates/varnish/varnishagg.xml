@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<zabbix_export version="1.0" date="12.09.11" time="16.50">
+<zabbix_export version="1.0" date="13.09.11" time="18.50">
   <hosts>
     <host name="Template_VarnishAgg">
       <proxy_hostid>0</proxy_hostid>
@@ -16,7 +16,8 @@
       <ipmi_username></ipmi_username>
       <ipmi_password></ipmi_password>
       <groups>
-        <group>Varnish</group>
+        <group>Templates</group>
+        <group>VarnishAgg</group>
       </groups>
       <triggers/>
       <items>

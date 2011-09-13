@@ -1,4 +1,4 @@
-default.zabbixaws[:account1][:name] = "myaccount1" 
+default.zabbixaws[:account1][:name] = "account1"
 default.zabbixaws[:account1][:key] = "mykey"
 default.zabbixaws[:account1][:secret] = "mysecret"
 

@@ -21,6 +21,7 @@ cookbook_file "/etc/zabbix/agentd.d/cloudwatch.conf" do
   notifies :restart, resources(:service => "zabbix-agent"), :delayed
 end
 
+
 template "/usr/local/bin/zabbix-cloudwatch.py" do
   source "cloudwatch/zabbix-cloudwatch.py.erb"
   mode 0750
@@ -29,3 +30,11 @@ template "/usr/local/bin/zabbix-cloudwatch.py" do
   notifies :restart, resources(:service => "zabbix-agent" ), :delayed
 end
 
+#de-register script
+template "/usr/local/bin/zabbix-cloudwatch.py" do
+  source "deregister/zabbix-regerister.py.erb"
+  mode 0750
+  owner "zabbix"
+  group "root"
+  notifies :restart, resources(:service=> "zabbix-agent"), :delayed
+end

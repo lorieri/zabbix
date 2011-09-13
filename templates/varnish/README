@@ -11,6 +11,8 @@ Examples of:
 Requirenments: 
 
  - Varnish
+ - edit the file chef/cookbooks/zabbix-aws/files/default/varnish/varnish.conf
+   with the zabbix server
 
 Note: Those are 2 templates
       - one for each machine
@@ -42,7 +44,12 @@ Option for N varnish groups:
      - Change the group "VarnishMyGroup" inside the Template configuration
      - link the Template_Varnish on this template
 - Clone the Template_VarnishAgg to Template_VarnishMyGroupAgg
-     - configure the macro to your new group
+     - you need a different host for each aggregation, or you change the
+       macro name in all items if you want to link this template in the same
+       host for all group aggregations. I recommend you run all togheter and
+       use the host that will run all scripts. In most cases it is the host 
+       of the zabbix server itself
+     - configure the macro to your new group in the host configuration
      - {$MYGROUP} = VarnishMyGroup
 
 - Put hosts in the template Template_VarnishMyGroup
@@ -51,6 +58,8 @@ Option for N varnish groups:
 Install the scripts using chef
   - Use the chef's zabbix-aws::agent-varnish recipe at the hosts' role
     * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
+  - Edit the file chef/cookbooks/zabbix-aws/files/default/varnish/varnish.conf
+    and use your zabbix server
   - Use the manual instalation below to understand how does it work
 
   In case you use the auto-register script:
@@ -71,6 +80,9 @@ Install the scripts manually
          $ sudo chmod 600 /etc/zabbix/agentd.d/*
          $ sudo /etc/init.d/zabbix-agent restart
 
+
+
+This diagram is only for the Varnish servers, not for the aggregation
 
              .---------------.
              | zabbix server |          (Server and Agent can be the same host)
@@ -112,3 +124,34 @@ Install the scripts manually
  |       |   - static conf    | /etc/zabbix/agent.d/varnish.conf    |
  '-------'--------------------'-------------------------------------'
      (can contain recipe+tag to auto-register)
+
+
+Diagram for the aggregation
+
+             .--------------------------------------------------.
+             |                  zabbix server                   |
+             |                                                  |
+  .----------------.                                            |
+  | G  .------.    |                                            |
+  | R  | HOST .------.                                          |
+  | O  '------| ITEM |-                                         |
+  | U         '------' \                                        |
+  | P  .------.    |    \                                       |
+  |    | HOST .------.   \                           .-----------------.
+  |    '------| ITEM |----\                          | SCRIPT HOST     |
+  |           '------'     \                         |  .------------. |
+  |    .------.    |        \                        |  | ITEMS      | |
+  |    | HOST .------.       \   .-----------.    .----------------. | |
+  |    '------| ITEM |--------+--| CALCULATE |----| AGG=CALCULATED | | |
+  |           '------'       /   '-----------'    '----------------' | |
+  |    .------.    |        /                     .----------------. | |
+  |    | HOST .------.     /                      | AGG=CALCULATED | | |
+  |    '------| ITEM |----/                       '----------------' | |
+  |           '------'   /                        .----------------. | |
+  |    .------.    |    /                         | AGG=CALCULATED | | |
+  |    | HOST .------. /                          '----------------' | |
+  |    '------| ITEM |-                              |   '-----------' |
+  |           '------'                               '-----------------'
+  '----------------'                                            |
+             |                                                  |
+             '--------------------------------------------------'

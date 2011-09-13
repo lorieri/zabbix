@@ -12,6 +12,7 @@ override_attributes "zabbixaws" => {
                 "secret" => "mysecret"
         }
 }
+
 run_list [
         "recipe[zabbix::agent]",
         "recipe[zabbix-aws::agent-scripts]"
