@@ -41,9 +41,6 @@ echo "$TEMPLATES" |grep -o templateid|wc -l|grep -qx 2 || { echo "Error getting 
 
 echo "-> Registering host..."
 
-test -z "$DNS" && { echo "Error getting DNS"; exit 1; }
-test -z "$ISID" && { echo "Erro getting Instance-id";  exit 1; }
-
 #building api's json
 REGISTER=`curl -s -X POST -H "Content-Type: application/json" $URL  -d '{
   "jsonrpc":"2.0",

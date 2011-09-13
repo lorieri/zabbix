@@ -1,26 +1,25 @@
 ***** You can find information about the recipes from the templates
-***** The only recipe the information is right here is the Auto-register
+***** The only recipes the information are right here is the Auto-register
 ***** and the De-register scripts
 
 
 ***** NOT TESTED YET AFTER MIGRATED TO GITHUB *****
-
+***** Easy to adapt to other (or none) automations  *****
 
 Auto-register:
 
-It's a recipe you attach at your role to try only once to register the node 
+It's a recipe you attach at your role that try only once to register the node 
 into the Zabbix Server
 
 Requirements:
 
-This first version is very simple, based on wget and shell script, you may
-need those tools at the bootstrap
+This first version is very simple, using the API and shell script, you may
+need shell tools at the bootstrap
    - An user at Zabbix with API access and RW rights to add machines to your
      group and the Discovered Hosts' group
-   - Since it is only one script for all hosts, I didn't make it template
-     and you have to edit it directly
-   - Include this the zabbix-aws::auto-register recipe at the end of your
-     recipe
+   - Since it is only one script for all hosts, I didn't make it a chef's
+     template and you have to edit it directly
+   - Include the zabbix-aws::auto-register recipe at the end of your recipe
 
 Workflow:
    - search for the node's zabbix tag
@@ -31,8 +30,8 @@ Workflow:
        - Register the machine into Zabbix
        - Tag the host as REGISTERED
 
-It is originally built for AWS, but there is not direct relation to it
-and works in any Linux environment 
+It is originally built for AWS, but the only direct relation to it is the
+DNS and Instance-id in the begining of the script
 
 
 De-register:
@@ -41,29 +40,28 @@ De-register:
 
 It's a recipe that only copies an additional configuration and a de-register
 script to the zabbix::script recipe. This is directly related to EC2.
-It also copy a 2 new scripts to the node
+It also copy 2 new scripts to the node, one python to get the nodes list and
+other to remove terminated nodes in the zabbix server
 
-Requirement:
-   - An IAM account with able to list all instances
+Requirements:
+   - An IAM account able to list all instances
    - Python-boto in the script server
-   - An user with RW rights to the API, to your group,
-     and the Discovered Hosts's group
-   - Even though python is there, it is an shell script that handles the API
-   - Since it is only one script for all hosts, I didn't make it template
+   - An user with RW rights to the API, to your group, and to the
+     Discovered Hosts's group
+   - Since it is only two scripts for all hosts, I didn't make it template
      and you have to edit it directly
 
-
-Note: Amazon's API is unpredictable for terminated instances, so a complete
-      list of instances is necessary
+Note: Amazon's API is unpredictable getting terminated instances, so a
+      complete list of instances is necessary
 
 Workflow:
    - Each minute get the list of EC2 instances
-   - Get the list of instances of a certain configurable Group
-       - recomended only for autoscaling groups, you may want to know check
+   - Get the list of instances of a certain configurable given Group
+       - recomended only for autoscaling groups, you may want to check if or
          when machines of regular groups dies
    - Compare both lists, if there is an instance present in the Group and not
      present at EC2 anymore, it is removed from the Zabbix server
-   - Aggregated monitoring persists the instances values
+   - Use aggregated monitoring persists the instances values
 
 
 TODO:
