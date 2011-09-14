@@ -3,8 +3,8 @@
 ***** and the De-register scripts
 
 
-***** NOT TESTED YET AFTER MIGRATED TO GITHUB *****
-***** Easy to adapt to other (or none) automations  *****
+Scripts below are based on Amazon AWS, you can easly change it to othe kinds
+of infrastructures, check the "Requirements" for more information
 
 Auto-register:
 
@@ -15,11 +15,22 @@ Requirements:
 
 This first version is very simple, using the API and shell script, you may
 need shell tools at the bootstrap
+   - There are two scripts, one using wget commands and another using curl,
+     ubuntu doesn't install curl by default (you still can install it by
+     chef or have it at your amazon imagens)
    - An user at Zabbix with API access and RW rights to add machines to your
      group and the Discovered Hosts' group
    - Since it is only one script for all hosts, I didn't make it a chef's
-     template and you have to edit it directly
+     template and you have to edit it directly to change user and password
    - Include the zabbix-aws::auto-register recipe at the end of your recipe
+   - It is based on amazon and it tries to retrieve instance information to
+     the variables DNS and ISID, you change it to `hostname` instead
+   - Scripts have timeout both for curl and wget, you may want to change it
+     depending on your envinronment and how far or how stressed is you Zabbix
+     Server
+   - In case of error, the script do not block Chef's execution. But you may
+     want to change the exit code from 0 to 1 if you want to nest it. If you
+     have 24x7 supporte, I recommend you change it to 1
 
 Workflow:
    - search for the node's zabbix tag
@@ -36,12 +47,10 @@ DNS and Instance-id in the begining of the script
 
 De-register:
 
-***** NOT YET MIGRATED TO GITHUB ******
-
-It's a recipe that only copies an additional configuration and a de-register
-script to the zabbix::script recipe. This is directly related to EC2.
-It also copy 2 new scripts to the node, one python to get the nodes list and
-other to remove terminated nodes in the zabbix server
+It is based on 2 scripts, one that get a list of nodes in Amazon, and another
+that get list of Zabbix nodes at a given Group and compare both lists to
+decide which machines to unregister from Zabbix. If you are not using Amazon
+you need to change the way the lists are build and compared. 
 
 Requirements:
    - An IAM account able to list all instances
@@ -50,6 +59,12 @@ Requirements:
      Discovered Hosts's group
    - Since it is only two scripts for all hosts, I didn't make it template
      and you have to edit it directly
+   - This script is also based in the Instance-Id, storead as the machine
+     name on Zabbix, if your machine's name is something else you can will
+     remove all of them in the Zabbix server. The machines will not be
+     removed from Amazon, but if you have a long time historic, it will be
+     removed. You can change both the python and the shell script to retrieve
+     the hostname or ip address instead of the Instance-Id
 
 Note: Amazon's API is unpredictable getting terminated instances, so a
       complete list of instances is necessary

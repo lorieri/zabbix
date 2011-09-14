@@ -4,6 +4,10 @@ Those are some automations I've made initially for AWS
 The concepts are not exclusive for AWS, like abstractions, auto and de-register,
 vms' steal cpu time, aggregations by groups, etc...
 
+Please use Zabbix > 1.8.5, for ubuntu you can get it from here
+http://packages.ubuntu.com/oneiric/zabbix-agent
+Minor version has api problems
+
 If you like opscode's chef, start with this:
 http://community.opscode.com/cookbooks/zabbix
 

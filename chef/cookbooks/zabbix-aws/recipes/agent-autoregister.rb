@@ -10,7 +10,9 @@ node[:tags].each do |p|
 
 
 			cookbook_file "/root/zabbix_autoregister.sh" do
-				source "auto-register/zabbix_autoregister_api.sh"
+				source "auto-register/zabbix_autoregister_wget.sh"
+                                #use the one below if you have curl available and not wget
+				#source "auto-register/zabbix_autoregister_api.sh"
 				owner "root"
 				group "root"
 				mode "0700"
