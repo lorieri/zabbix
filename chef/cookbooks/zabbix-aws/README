@@ -31,6 +31,11 @@ need shell tools at the bootstrap
    - In case of error, the script do not block Chef's execution. But you may
      want to change the exit code from 0 to 1 if you want to nest it. If you
      have 24x7 supporte, I recommend you change it to 1
+   - If you want to force a machine to register/enable again, change it's
+     chef tag
+   - If you want to force all machines to register/enable again, change the
+     variable expected_tag in the recipe, so all machine will try to
+     register again in the next chef-client run
 
 Workflow:
    - search for the node's zabbix tag
@@ -39,6 +44,8 @@ Workflow:
        - Search for a Group with the tag's name
        - Search for a Template with the tag's name
        - Register the machine into Zabbix
+       - It also tries to enable the machine if it was disabled by the
+         de-register script
        - Tag the host as REGISTERED
 
 It is originally built for AWS, but the only direct relation to it is the
@@ -50,7 +57,9 @@ De-register:
 It is based on 2 scripts, one that get a list of nodes in Amazon, and another
 that get list of Zabbix nodes at a given Group and compare both lists to
 decide which machines to unregister from Zabbix. If you are not using Amazon
-you need to change the way the lists are build and compared. 
+you need to change the way the lists are build and compared.
+**** Be careful, it is beta, you have 2 options: remove or disable the hosts
+**** Removing is better, but it is dangerous, the default is to disable
 
 Requirements:
    - An IAM account able to list all instances

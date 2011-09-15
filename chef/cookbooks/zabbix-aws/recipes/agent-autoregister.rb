@@ -1,8 +1,10 @@
 #### PLEASE INCLUDE THIS RECIPE AT THE END OF YOUR GROUP RECIPE
 
+expected_tag="REGISTERED_1"
+
 node[:tags].each do |p|
         if p =~ /^zabbix/
-                if p !~ /REGISTERED$/
+                if p !~ /#{expected_tag}$/
 
                         z = p.split("-")[1]
 
@@ -24,9 +26,9 @@ node[:tags].each do |p|
 				notifies :restart, resources(:service => "zabbix-agent" ), :delayed
 			end
 
-			Chef::Log.info("Chaging Tag #{p} to #{p}-REGISTERED")
+			Chef::Log.info("Chaging Tag #{p} to #{p}-#{expected_tag}")
 			untag("#{p}")
-			tag("#{p}-REGISTERED")
+			tag("#{p}-#{expected_tag}")
 
                 else
                         Chef::Log.info("Tag marked as registered: #{p}")
