@@ -74,6 +74,10 @@ Requirements:
      removed from Amazon, but if you have a long time historic, it will be
      removed. You can change both the python and the shell script to retrieve
      the hostname or ip address instead of the Instance-Id
+   - You have to trigger it somehow. I choosed to put is in the cloudwatch
+     template and monitor its execution from Zabbix too.
+     It is an item called Autoregister.deregister, and it pass the values
+     {mygroup},{myaccount} to the agent that will run this script
 
 Note: Amazon's API is unpredictable getting terminated instances, so a
       complete list of instances is necessary
@@ -91,5 +95,3 @@ Workflow:
 TODO:
    - test it again
    - check if we need can configure the groups directly to the templates
-   - check if it is easier to get host information from chef/ohai
-       - or leave it like that to depend on chef/ohai ?

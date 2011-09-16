@@ -1,19 +1,53 @@
-Zabbix - improvements
+Zabbix - POC for AWS and Chef automation
 
-Those are some automations I've made initially for AWS 
-The concepts are not exclusive for AWS, like abstractions, auto and de-register,
-vms' steal cpu time, aggregations by groups, etc...
+This is an usable prove of concept on how to manage an efficient monitoring
+over AWS installations.
+
+It shows concepts on how to aggregate values to persist of volatile instances
+creation and destruction and still be able to plan for best resources usage
+
+Another concept show is the usage of trapper items to have get all items
+values in a host at same time and have better notion of that given instance
+helping build better calculations and comparsions, for example for 
+success/error ratings and backend/cached/user requests 
+
+It has a modificated Linux basic template that abstracts values make it
+easier to use templates for all machines you have, and includes the cpu steal
+time that is important for vms and Amazon instances
+
+The last feature is the auto-registration and auto-de-registration of the
+machines. Registration can be explored not only for amazon, but especially
+for environments controled by automations, like Chef. Deregistration is based
+on Amazon AWS, specially the autoscaling service were your machines' pool
+increase and decrease dinamically 
 
 Please use Zabbix > 1.8.5, for ubuntu you can get it from here
 http://packages.ubuntu.com/oneiric/zabbix-agent
 Minor version has api problems
 
-If you like opscode's chef, start with this:
+If you like opscode's chef, start with this coockbook, my cookbook extend its
+features:
 http://community.opscode.com/cookbooks/zabbix
 
 Dirs:
 
- templates/  <- zabbix templates and instalations instructions
+ templates/  <- zabbix templates and installations instructions
  chef/       <- chef cookbooks, roles 
                 and auto-register/de-register instructions
  scripts/    <- instruction to go to chef dir ang get them :P
+
+
+TODO/Limitations/Known issues:
+ - update the cloudwatch template to trigger the de-registration script
+   passing {mygroup} and {myaccount} and intructions to use multiple
+   groups and mulitple accounts
+ - use more python, specially for de-registration
+ - fix the max of 5 AWS accounts silly limitation
+ - make better and centralized documentation
+ - build a step-by-step walkthrough
+ - put all variables in the chef's attributes
+ - build a script to generate the scripts independent of chef for manual
+   instaltion or to be used with another automation tool
+ - improve the calculate itens for low traffic machines don't divide by zero
+   and disable the item/trigger for a while 
+
