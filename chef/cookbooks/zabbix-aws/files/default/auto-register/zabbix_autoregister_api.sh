@@ -1,6 +1,9 @@
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+echo "OUTDATED"
+exit 
+
 #Testing argument
 test -z "$1" && { echo "Usage: zabbix_register_api.sh  [mytag]"; exit 0; }
 

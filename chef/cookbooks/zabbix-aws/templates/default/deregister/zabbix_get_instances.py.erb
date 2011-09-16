@@ -1,0 +1,49 @@
+#!/usr/bin/python2.7
+
+import sys
+option=""
+aws_key=""
+aws_secret=""
+
+if len(sys.argv) < 2:
+    print "Usage: get_instances.py <account>"
+    sys.exit(1)
+else :
+    option = sys.argv[1]
+
+from boto.ec2.connection import EC2Connection
+
+if option == '<%= @node[:zabbixaws][:account1][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account1][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account1][:secret] %>'
+elif option == '<%= @node[:zabbixaws][:account2][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account2][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account2][:secret] %>'
+elif option == '<%= @node[:zabbixaws][:account3][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account3][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account3][:secret] %>'
+elif option == '<%= @node[:zabbixaws][:account4][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account4][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account4][:secret] %>'
+elif option == '<%= @node[:zabbixaws][:account5][:name] %>':
+    aws_key = '<%= @node[:zabbixaws][:account5][:key] %>'
+    aws_secret = '<%= @node[:zabbixaws][:account5][:secret] %>'
+
+if not aws_key:
+    sys.exit(1)
+if not aws_secret:
+    sys.exit(1)
+
+
+conn = EC2Connection(aws_key, aws_secret)
+if not conn:
+    sys.exit(1)
+instances = conn.get_all_instances()
+if not instances:
+    sys.exit(1)
+for inst in instances:
+  for instt in inst.instances:
+     #print dir(instt)
+     if instt.state != "terminated" :
+	print instt.id
+

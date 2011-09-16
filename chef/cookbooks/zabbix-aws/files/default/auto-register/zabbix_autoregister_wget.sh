@@ -27,10 +27,10 @@ test -z "$AUTH" && { echo "Error authenticating" ; exit 0 ; }
 
 echo "-> Searching hostgroups..."
 # From tag's group and Discovered hosts
-GROUPS=`wget --timeout=15 -q -O- --header="Content-Type: application/json" --post-data='{"jsonrpc":"2.0","method":"hostgroup.get","params":{"filter":{"name": ["'"$MYTAG"'","Discovered hosts"]}},"id": 1,"auth":"'"$AUTH"'"}' "$URL" | sed -n 's/.*"result":\[\([^]]*\)\].*/\1/p'`
+GRPS=`wget --timeout=15 -q -O- --header="Content-Type: application/json" --post-data='{"jsonrpc":"2.0","method":"hostgroup.get","params":{"filter":{"name": ["'"$MYTAG"'","Discovered hosts"]}},"id": 1,"auth":"'"$AUTH"'"}' "$URL"| sed -n 's/.*"result":\[\([^]]*\)\].*/\1/p'`
 
 #checking groups 
-echo "$GROUPS" |grep -o groupid|wc -l|grep -qx 1 || { echo "Error getting groups"; exit 0 ; }
+echo "$GRPS" |grep -o groupid|wc -l|grep -qx 2 || { echo "Error getting groups"; exit 0 ; }
 
 echo "-> Getting LinuxBasic and Tag's template..."
 TEMPLATES=`wget --timeout=15 -q -O- --header="Content-Type: application/json" --post-data='{"jsonrpc":"2.0","method":"template.get","params":{"filter":{"host":["Template_LinuxBasic","Template_'"$MYTAG"'"]}},"id": 1,"auth":"'"$AUTH"'"}' "$URL"| sed -n 's/.*"result":\[\([^]]*\)\].*/\1/;s/"hostid":"[^"]*",//gp'`
@@ -51,7 +51,7 @@ REGISTER=`wget --timeout=20 -q -O- --header="Content-Type: application/json" $UR
       "dns":"'"$DNS"'",
       "port":10050,
       "groups":[
-          '"$GROUPS"'
+          '"$GRPS"'
       ],  
       "templates":[
           '"$TEMPLATES"'
@@ -61,5 +61,7 @@ REGISTER=`wget --timeout=20 -q -O- --header="Content-Type: application/json" $UR
   "id":1
 }
 '`
+
+echo $REGISTER
 echo "$REGISTER"|grep -q '"hostids":\["[0-9]*"\]' || { echo "Error registering $DNS !!!!"; exit 0 ; }
 echo "-> $DNS registered !!"
