@@ -88,8 +88,8 @@ http://community.opscode.com/cookbooks/zabbix<br>
 <h2>Done:</h2>
 - <font color=red>TESTED</font>-> cloudwatch template, script and chef automation<br>
 - <font color=red>TESTED</font>-> linux basic template with abstractions and some EC2 optimizations<br>
-- <font color=red>TESTED</font>-> varnish template using trapper items examples for better consistency, speed and distribution<br>
-&nbsp;&nbsp;&nbsp;will be the base for auto-register and de-register examples<br>
+- <font color=red>TESTED</font>-> varnish template using trapper items examples for better consistency,<br>
+&nbsp;&nbsp;&nbsp;speed and distribution will be the base for auto-register and de-register examples<br>
 - <font color=red>TESTED</font>-> varnish aggregation template using calculated items by groups<br>
 &nbsp;&nbsp;&nbsp;to have a capacity overview of the group and to persist volatile instances data<br>
 - <font color=red>TESTED</font>-> auto-register for bootstrapping <br>
@@ -98,15 +98,15 @@ http://community.opscode.com/cookbooks/zabbix<br>
 <h2>TODO/Limitations/Known issues:</h2>
 - better instructions for multiple aws accounts<br>
 - more info about aggregations and capacity view by groups and its relation to dead instances<br>
-- update the cloudwatch template to trigger the de-registration script passing {mygroup} and {myaccount}
-  and intructions to use multiple groups and mulitple accounts<br>
+- update the cloudwatch template to trigger the de-registration script passing {mygroup} and<br>
+&nbsp;&nbsp;&nbsp;{myaccount} and intructions to use multiple groups and mulitple accounts<br>
 - use more python, specially for de-registration<br>
 - fix the max of 5 AWS accounts silly limitation<br>
 - make better and centralized documentation<br>
 - build a step-by-step walkthrough<br>
 - put all variables in the chef's attributes<br>
-- build a script to generate the scripts independent of chef for manual
-   instaltion or to be used with another automation tool<br>
+- build a script to generate the scripts independent of chef for manual instaltion or to<br>
+&nbsp;&nbsp;be used with another automation tool<br>
 - improve the calculate itens for low traffic machines don't divide by zero
    and disable the item/trigger for a while <br>
 - <b>test an complete deploy</b><br>
