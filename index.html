@@ -46,8 +46,38 @@
       <span class="small">by <a href="http://github.com/lorieri">lorieri</a></span></h1>
 
     <div class="description">
-      zabbix templates, scripts, and chef automations, mostly for aws deploys
+      zabbix templates, scripts, and chef automations usable POC for aws deploys
     </div>
+
+<h2>About</h2>
+This is an usable prove of concept on how to manage an efficient monitoring
+over AWS installations.<br>
+<br>
+It shows concepts on how to aggregate values to persist of volatile instances
+creation and destruction and still be able to plan for best resources usage<br>
+<br>
+Another concept show is the usage of trapper items to have get all items
+values in a host at same time and have better notion of that given instance
+helping build better calculations and comparsions, for example for 
+success/error ratings and backend/cached/user requests <br>
+<br>
+It has a modificated Linux basic template that abstracts values make it
+easier to use templates for all machines you have, and includes the cpu steal
+time that is important for vms and Amazon instances<br>
+<br>
+The last feature is the auto-registration and auto-de-registration of the
+machines. Registration can be explored not only for amazon, but especially
+for environments controled by automations, like Chef. Deregistration is based
+on Amazon AWS, specially the autoscaling service were your machines' pool
+increase and decrease dinamically <br>
+<br>
+Please use Zabbix > 1.8.5, for ubuntu you can get it from here<br>
+http://packages.ubuntu.com/oneiric/zabbix-agent<br>
+Minor version has api problems<br>
+<br>
+If you like opscode's chef, start with this coockbook, my cookbook extend its
+features:<br>
+http://community.opscode.com/cookbooks/zabbix<br>
 
 <h2>Plan</h2>
 - convert original scripts to github while creating documentation<br>
@@ -55,24 +85,32 @@
 - test an complete deploy<br>
 - update the documentation<br>
 <br>
-Done:<br>
-- TESTED-> cloudwatch template, script and chef automation<br>
-- TESTED-> linux basic template with abstractions and some EC2 optimizations<br>
-- TESTED-> varnish template using trapper items examples for better consistency, speed and distribution<br>
+<h2>Done:</h2>
+- <font color=red>TESTED<font>-> cloudwatch template, script and chef automation<br>
+- <font color=red>TESTED<font>-> linux basic template with abstractions and some EC2 optimizations<br>
+- <font color=red>TESTED<font>-> varnish template using trapper items examples for better consistency, speed and distribution<br>
 &nbsp;&nbsp;&nbsp;will be the base for auto-register and de-register examples<br>
-- TESTED-> varnish aggregation template using calculated items by groups<br>
+- <font color=red>TESTED<font>-> varnish aggregation template using calculated items by groups<br>
 &nbsp;&nbsp;&nbsp;to have a capacity overview of the group and to persist volatile instances data<br>
-- TESTED-> auto-register for bootstrapping <br>
-- TESTED-> auto de-register<br>
+- <font color=red>TESTED<font>-> auto-register for bootstrapping <br>
+- <font color=red>TESTED<font>-> auto de-register<br>
 <br>
-Done but not at github yet:<br>
-<br>
-- instructions for trigger the de-register by the template<br>
+<h2>TODO/Limitations/Known issues:</h2>
 - better instructions for multiple aws accounts<br>
 - more info about aggregations and capacity view by groups and its relation to dead instances<br>
-- some minor updates: update the auto-register using curl with the new feature of the wget script<br>
-- implement "enable" in the auto-register, not only register<br>
+- update the cloudwatch template to trigger the de-registration script passing {mygroup} and {myaccount}
+  and intructions to use multiple groups and mulitple accounts<br>
+- use more python, specially for de-registration<br>
+- fix the max of 5 AWS accounts silly limitation<br>
+- make better and centralized documentation<br>
+- build a step-by-step walkthrough<br>
+- put all variables in the chef's attributes<br>
+- build a script to generate the scripts independent of chef for manual
+   instaltion or to be used with another automation tool<br>
+- improve the calculate itens for low traffic machines don't divide by zero
+   and disable the item/trigger for a while <br>
 - <b>test an complete deploy</b><br>
+<br>
 </p>
 <h2>Dependencies</h2>
 <p>if you are going to put it on chef: http://community.opscode.com/cookbooks/zabbix</p>
