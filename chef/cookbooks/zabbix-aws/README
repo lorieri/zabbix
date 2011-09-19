@@ -1,97 +1,69 @@
 ***** You can find information about the recipes from the templates
-***** The only recipes the information are right here is the Auto-register
-***** and the De-register scripts
+***** The only recipe the docummentation is right here is the Auto-register
 
-
-Scripts below are based on Amazon AWS, you can easly change it to othe kinds
-of infrastructures, check the "Requirements" for more information
+Scripts below are based on Amazon AWS, but you can easly change it to other
+kinds of infrastructures, check the "Requirements" for more information
 
 Auto-register:
 
-It's a recipe you attach at your role that try only once to register the node 
+It's a recipe you attach at your role that try ONLY ONCE to register the node 
 into the Zabbix Server
 
-Requirements:
+Notes:
 
-This first version is very simple, using the API and shell script, you may
-need shell tools at the bootstrap
-   - There are two scripts, one using wget commands and another using curl,
-     ubuntu doesn't install curl by default (you still can install it by
-     chef or have it at your amazon imagens)
-   - An user at Zabbix with API access and RW rights to add machines to your
-     group and the Discovered Hosts' group
-   - Since it is only one script for all hosts, I didn't make it a chef's
-     template and you have to edit it directly to change user and password
-   - Include the zabbix-aws::auto-register recipe at the end of your recipe
-   - It is based on amazon and it tries to retrieve instance information to
-     the variables DNS and ISID, you change it to `hostname` instead
+   - This version is very simple, is uses Zabbix's API and shell script. You
+     may need the shell tools involved pre-installed at the bootstrap for it
+     works
+   - There are two scripts, one using wget and another using curl. Ubuntu
+     doesn't install curl by default but you still can install it by chef or
+     have it pre-installed in your AMI (Amazon image)
+   - It is based on Amazon EC2 and it tries to retrieve instance information
+     from Amazon to store on DNS and ISID variables, you may want to change
+     it to `hostname` instead if you are not using Amazon.
+   - The name of the host is the Amazon EC2 Instance-id. This name will be
+     used by the de-register script and by Chef to control Amazon instances.
+     Zabbix 1.8.7 added more flexibility by creating a new field for machines'
+     names
    - Scripts have timeout both for curl and wget, you may want to change it
      depending on your envinronment and how far or how stressed is you Zabbix
      Server
-   - In case of error, the script do not block Chef's execution. But you may
-     want to change the exit code from 0 to 1 if you want to nest it. If you
-     have 24x7 supporte, I recommend you change it to 1
-   - If you want to force a machine to register/enable again, change it's
-     chef tag
-   - If you want to force all machines to register/enable again, change the
-     variable expected_tag in the recipe, so all machine will try to
-     register again in the next chef-client run
+   - In case of error, the script do not blocks Chef's execution. But you may
+     want to change the exit code from 0 to 1 if you want it blocked. If you
+     have 24x7 support team, I recommend you change it to 1.
+   - Using chef, if you want to force a SINGLE machine to be registered/enabled
+     again, change it's node tag back to zabbix-MYGROUP without the postfix
+   - Using chef, if you want to force ALL machines to be registered/enabled
+     again, change the recipe's variable "expected_tag" to a new value and all
+     machines will try again in the next chef-client run
 
+
+Requirenments:
+
+   - An Zabbix user with API access and RW rights on all templates and groups
+     you will interact with. Rembember the script auto-includes the Discovered
+     Hosts' group and the Template_LinuxBasic. Make sure your Template doesn't
+     link the Template_LinuxBasic on it, otherwise it will conflict
+   - So far and since it is a single script, it is not templatized on chef, you
+     have to edit it directly to change Zabbix's user and password
+
+Howto:
+
+   - Put a tag called "zabbix-MYGROUP" at your role or recipe to tag all the
+     machines in your group
+   - Include the recipe zabbix-aws::auto-register at the end of your role or
+     recipe to trigger the auto-registration process
+   
 Workflow:
-   - search for the node's zabbix tag
+   - Chef searches for the node's zabbix tag
    - if registered, do nothing
    - if not registered (tag doesn't contain REGISTERED)
-       - Search for a Group with the tag's name
-       - Search for a Template with the tag's name
-       - Register the machine into Zabbix
-       - It also tries to enable the machine if it was disabled by the
-         de-register script
+       - Search for the group in the tag's name after zabbix-
+       - Search for a Template with the same group name
+       - Register the machine into Zabbix using all below:
+           - this group
+           - this template
+           - the LinuxBasic template
+           - the Discovered Hosts group
+       - It also tries to enable the machine in case it was only disabled by
+         the de-register script
        - Tag the host as REGISTERED
-
-It is originally built for AWS, but the only direct relation to it is the
-DNS and Instance-id in the begining of the script
-
-
-De-register:
-
-It is based on 2 scripts, one that get a list of nodes in Amazon, and another
-that get list of Zabbix nodes at a given Group and compare both lists to
-decide which machines to unregister from Zabbix. If you are not using Amazon
-you need to change the way the lists are build and compared.
-**** Be careful, it is beta, you have 2 options: remove or disable the hosts
-**** Removing is better, but it is dangerous, the default is to disable
-
-Requirements:
-   - An IAM account able to list all instances
-   - Python-boto in the script server
-   - An user with RW rights to the API, to your group, and to the
-     Discovered Hosts's group
-   - Since it is only two scripts for all hosts, I didn't make it template
-     and you have to edit it directly
-   - This script is also based in the Instance-Id, storead as the machine
-     name on Zabbix, if your machine's name is something else you can will
-     remove all of them in the Zabbix server. The machines will not be
-     removed from Amazon, but if you have a long time historic, it will be
-     removed. You can change both the python and the shell script to retrieve
-     the hostname or ip address instead of the Instance-Id
-   - You have to trigger it somehow. I choosed to put is in the cloudwatch
-     template and monitor its execution from Zabbix too.
-     It is an item called Autoregister.deregister, and it pass the values
-     {mygroup},{myaccount} to the agent that will run this script
-
-Note: Amazon's API is unpredictable getting terminated instances, so a
-      complete list of instances is necessary
-
-Workflow:
-   - Each minute get the list of EC2 instances
-   - Get the list of instances of a certain configurable given Group
-       - recomended only for autoscaling groups, you may want to check if or
-         when machines of regular groups dies
-   - Compare both lists, if there is an instance present in the Group and not
-     present at EC2 anymore, it is removed from the Zabbix server
-   - Use aggregated monitoring persists the instances values
-
-
-TODO:
-   - test it again
-   - check if we need can configure the groups directly to the templates

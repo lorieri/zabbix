@@ -1,46 +1,69 @@
 Zabbix - POC for AWS and Chef automation
 
-This is an usable prove of concept on how to manage an efficient monitoring
-over AWS installations.
+This is an usable proof of concept on how to manage an efficient monitoring
+over AWS installations using the Zabbix monitoring tool from Zabbix SIA
+You can find more information about Zabbix at www.zabbix.com
 
-It shows concepts on how to aggregate and persist values of volatile instances
-creation and destruction and still be able to plan for best resources usage
+It has 4 main goals:
+  - Templatization
+  - Aggregation
+  - Trapper items
+  - Abstraction
+  - Auto-register, auto-deregister
+  - Chef automation 
 
-Another concept shown is the usage of trapper items to have get all items
-values in a host at same time and have better notion of that given instance
-helping build better calculations and comparsions, for example for 
-success/error ratings and backend/cached/user requests 
+Those concepts are not new nor invented by me, but here you can find an easy
+way to implement them either for AWS or any other environment.
 
-It has a modificated Linux basic template that abstracts values make it
-easier to use templates for all machines you have, and includes the cpu steal
-time that is important for vms and Amazon instances
 
-The last feature is the auto-registration and auto-de-registration of the
-machines. Registration can be explored not only for amazon, but especially
-for environments controled by automations, like Chef. Deregistration is based
-on Amazon AWS, specially the autoscaling service were your machines' pool
-increase and decrease dinamically 
+Templatization
+
+Shows how can the entire Zabbix configuration be templatized, exploring this
+awesome Zabbix's feature.
+
+Aggregation
+
+By aggregating groups it is easy to manage and persist values of volatile
+AWS instances creation and destruction, and still be able to plan for best
+resources usage. It is similiar as how Cloudwatch do, but lasts longer than
+few weeks
+
+Trapper items
+
+Trapper items are "listeners" items, and you can send all the values at same
+time from the zabbix_sender tool. It helps to get snapshots of a moment and
+make calculated items more accurate
+
+Abstraction
+
+By modificating the default Linux template adding some more abstraction making
+it easier to use templates for all machines you have. It also includes the cpu
+steal time that is important for vms and EC2 Amazon instances
+
+Auto-register, auto-deregister
+
+Not only building a script for auto-registration, but showing how to make it 
+efficient exploring the goals above. The script is also based in the Zabbix's
+API. Deregistration is based on Amazon AWS, specially the autoscaling service
+were your machines' pool increase and decrease dinamically
 
 Please use Zabbix > 1.8.5, for ubuntu you can get it from here
 http://packages.ubuntu.com/oneiric/zabbix-agent
-Minor version has api problems
+Minor version has some api problems
 
 If you like opscode's chef, start with this coockbook, my cookbook extend its
 features:
 http://community.opscode.com/cookbooks/zabbix
 
-Dirs:
 
+Dirs:
  templates/  <- zabbix templates and installations instructions
- chef/       <- chef cookbooks, roles 
-                and auto-register/de-register instructions
+ chef/       <- chef cookbooks, roles and 
+ 		auto-register instructions
  scripts/    <- instruction to go to chef dir ang get them :P
 
 
 TODO/Limitations/Known issues:
- - update the cloudwatch template to trigger the de-registration script
-   passing {mygroup} and {myaccount} and intructions to use multiple
-   groups and mulitple accounts
  - use more python, specially for de-registration
  - fix the max of 5 AWS accounts silly limitation
  - make better and centralized documentation

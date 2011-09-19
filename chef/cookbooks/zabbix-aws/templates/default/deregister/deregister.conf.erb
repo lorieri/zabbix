@@ -1,0 +1,4 @@
+# de-register example
+# stores the exit code 0 fro sucess or > 0 for error
+UserParameter=auto.deregister[*],/usr/local/bin/zabbix_deregister.sh $1 $2 > /dev/null; echo $?
+

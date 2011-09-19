@@ -19,51 +19,72 @@ Warning: even though it is cheap, you pay per thousands requests
 
          trends are stored for 5 years, you may have a good DB for that
 
+ - Understand how Cloudwatch works and what information you can get from it
+   to add more items
+ - Create an IAM account with read-only access to Cloudwatch
+ - Chose a host (can be the zabbix server) to run the scripts
+
+
+Notes:
+
+ - I recommend to install the scripts in the Zabbix server or in a host
+   dedicated to handle all aggregations and stand-alone monitoring 
+
+
+
 How to:
 
-- Understand how Cloudwatch works and what information you can get from it
-  to add more items
-- Create an IAM account with read-only access to Cloudwatch
-- Import the template into zabbix server
-- Chose a host (can be the zabbix server) to run the scripts 
-- Configure the macros variables in the host configuration, like this:
-  {$MYACCOUNT} = myawsaccount
-  {$AUTOSCALINGGROUPNAME} = my_autoscaling_groupname
-  {$RDSINSTANCE} = my_DBInstanceIdentifier
-
-  you can ignore the macros you not use,
-  disable the related triggers though
-
-- Link the template in the host configuration
- 
-- Install the scripts using chef
-  - Use the chef's zabbix-aws::agent-scripts recipe at the hosts' role
+ Install the agent configurations using chef:
+  - Include the chef's recipe zabbix-aws::agent-cloudwatch at the hosts' role
     * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
-  - Use the manual instalation below to understand how does it work
+  - Use the role chef/roles/myrole.rb as example of the accounts configuration
+    You can use 1 to 5 accounts
 
-- Include your account (so far 1 to 5) in the role chef/roles/myrole.rb
+ Install the agent configurations manually:
 
-- Install the scripts manually
-  In the server that will run the script
-    - copy the file template/default/cloudwatch/zabbix-cloudwatch.py.erb
-      in the chef zabbix-aws cookbook's dir (chef/cookbook/zabbix-aws)
-      to /usr/local/bin/zabbix-cloudwatch.py and edit it with your accounts
+  In the host:
     - create the directory /etc/zabbix/agentd.d/
-    - copy file files/default/cloudwatch/cloudwatch.conf
-      in the same chef cookbook to /etc/zabbix/agentd.d/cloudwatch.conf
-    - in the server that will run the collector script:
          $ sudo mkdir /etc/zabbix/agentd.d
+    - copy file cookbooks/zabbix-aws/files/default/cloudwatch/cloudwatch.conf
+      to /etc/zabbix/agentd.d/cloudwatch.conf
+    - copy and edit the file
+            cookbooks/zabbix-aws/templates/default/cloudwatch/
+                                                       zabbix-cloudwatch.py.erb
+      to /usr/local/bin/zabbix-cloudwatch.py
+    - include the configurations in the agentd:
          $ echo 'Include=/etc/zabbix/agentd.d/' |
            sudo tee -a /etc/zabbix/agentd.conf
+    - fix permissions and restart the agent
          $ sudo chown -R zabbix /etc/zabbix/agentd.d
-         $ sudo chown -R zabbix /usr/local/bin/zabbix-aws*
          $ sudo chmod 600 /etc/zabbix/agentd.d/*
-         $ sudo chmod 700 /usr/local/bin/zabbix-aws*
+         $ sudo chown zabbix:root /usr/local/bin/zabbix*
+         $ sudo chmod 750 /usr/local/bin/zabbix*
          $ sudo /etc/init.d/zabbix-agent restart
 
-Note: there is an item called: Autoscaling.deregister, to be used with the
-      auto-register script, ignore it until you autoregister machines,
-      check the chef's zabbix-autoregister recipe for details
+     
+ Install the templates for 1 account
+
+  - Import the template into Zabbix server
+  - Configure the macros variables in the template's configuration, like this:
+    {$MYACCOUNT} = myawsaccount
+    {$AUTOSCALINGGROUPNAME} = my_autoscaling_groupname
+    {$RDSINSTANCE} = my_DBInstanceIdentifier
+  - Link the template in the host you installed the agent
+   * You can ignore the macros you not use, disable the related triggers though
+
+ Install the templates for 2 (or more) accounts
+
+  - Import the template into Zabbix server
+  - Create a new template called Template_CloudwatchMyAccount1
+  - Link the Template_Cloudwach on it
+  - Configure the macros variables in this new template's configuration:
+    {$MYACCOUNT} = myawsaccount
+    {$AUTOSCALINGGROUPNAME} = my_autoscaling_groupname
+    {$RDSINSTANCE} = my_DBInstanceIdentifier
+  - Link the template in the host you installed the agent
+    **** THE HOST CAN'T CONTAIN SIMILAR MACROS, THE HAVE PRIORITY ***
+  - Repeat for the new account using Tempalte_CloudwatchMyAccount2
+  
 
 
              .---------------.

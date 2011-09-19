@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export version="1.0" date="19.09.11" time="14.06">
+  <hosts>
+    <host name="Template_Deregister">
+      <proxy_hostid>0</proxy_hostid>
+      <useip>1</useip>
+      <dns></dns>
+      <ip>127.0.0.1</ip>
+      <port>10050</port>
+      <status>3</status>
+      <useipmi>0</useipmi>
+      <ipmi_ip>127.0.0.1</ipmi_ip>
+      <ipmi_port>623</ipmi_port>
+      <ipmi_authtype>0</ipmi_authtype>
+      <ipmi_privilege>2</ipmi_privilege>
+      <ipmi_username></ipmi_username>
+      <ipmi_password></ipmi_password>
+      <groups>
+        <group>Templates</group>
+      </groups>
+      <triggers>
+        <trigger>
+          <description>Error running deregister script</description>
+          <type>0</type>
+          <expression>{Template_Deregister:auto.deregister["{$DE_MYGROUP}","{$DE_MYACCOUNT}"].last(0)}&gt;0</expression>
+          <url></url>
+          <status>0</status>
+          <priority>4</priority>
+          <comments></comments>
+        </trigger>
+        <trigger>
+          <description>No data from deregister script</description>
+          <type>0</type>
+          <expression>{Template_Deregister:auto.deregister["{$DE_MYGROUP}","{$DE_MYACCOUNT}"].nodata(120)}=1</expression>
+          <url></url>
+          <status>0</status>
+          <priority>5</priority>
+          <comments></comments>
+        </trigger>
+      </triggers>
+      <items>
+        <item type="7" key="auto.deregister[&quot;{$DE_MYGROUP}&quot;,&quot;{$DE_MYACCOUNT}&quot;]" value_type="3">
+          <description>De Register</description>
+          <ipmi_sensor></ipmi_sensor>
+          <delay>60</delay>
+          <history>7</history>
+          <trends>365</trends>
+          <status>1</status>
+          <data_type>0</data_type>
+          <units>exit code</units>
+          <multiplier>0</multiplier>
+          <delta>0</delta>
+          <formula>0</formula>
+          <lastlogsize>0</lastlogsize>
+          <logtimefmt></logtimefmt>
+          <delay_flex></delay_flex>
+          <authtype>0</authtype>
+          <username></username>
+          <password></password>
+          <publickey></publickey>
+          <privatekey></privatekey>
+          <params></params>
+          <trapper_hosts>localhost</trapper_hosts>
+          <snmp_community></snmp_community>
+          <snmp_oid></snmp_oid>
+          <snmp_port>161</snmp_port>
+          <snmpv3_securityname></snmpv3_securityname>
+          <snmpv3_securitylevel>0</snmpv3_securitylevel>
+          <snmpv3_authpassphrase></snmpv3_authpassphrase>
+          <snmpv3_privpassphrase></snmpv3_privpassphrase>
+          <applications/>
+        </item>
+      </items>
+      <templates/>
+      <graphs/>
+      <macros/>
+    </host>
+  </hosts>
+  <dependencies/>
+</zabbix_export>

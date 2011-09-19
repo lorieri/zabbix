@@ -1,8 +1,7 @@
 Varnish example monitoring for Zabbix 1.8.5
 
 Goals: Use varnish for a template that will be used as example for group 
-       aggregation, for the auto-register script, and for autoscaling
-       de-registratrion 
+       aggregation, auto-register script, and for autoscaling de-registratrion
 
 Examples of:
      - Item, trigers, graphs, aggregations, trapper items usage
@@ -10,72 +9,96 @@ Examples of:
 
 Requirenments: 
 
- - Varnish
+ - Varnish installed in the server 
  - edit the file chef/cookbooks/zabbix-aws/files/default/varnish/varnish.conf
-   with the zabbix server
+   to use your own zabbix server
 
-Note: Those are 2 templates
-      - one for each machine
-      - another to centralize and group values to persist data
+Notes:
+
+ Those are 2 templates
+      - one for to be used in all varnish machines
+      - another to centralize/group the values of the pool and to persist data
       - some graphs have scale in both sides
 
-      items are storing 3 months non-aggregated information after that time
-      you still can see aggregated avg,min,max values as trends, and tends 
+      items are storing 3 months of non-aggregated information, after that time
+      you still be able to see aggregated avg,min,max values as trends. Trends 
       are stored for 5 years, you may have a good DB for that
 
 Components:
    - A template calle "Template_Varnish"
-       - A group called "Varnish"
+       - And a group called "Varnish"
    - A template called "Template_VarnishAgg" to aggregate group values
 
 
 How to:
 
-Option for 1 varnish group:
+1 varnish pool, no auto-register:
 
-- Import both templates into zabbix server
-- In a varnish host configuration, link the Template_Varnish
-- In a host outside the varnish group, link the Template_VarnishAgg
-   - you can use the zabbix server host for this
-- Configure Template_VarnishAgg macros in the outside host:
-   - {$MYGROUP} = Varnish
+- Add the recipe zabbix-aws::agent-varnish to the Varnish's role
+  (or copy the agentd conf file varnish.conf to the servers)
+  * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
+  * Edit the varnish.conf to add your own Zabbix server
+- Import both templates into Zabbix server
+- Create a Zabbix hostgroup called Varnish
+- Pick up a host to run the aggregations, link it to the Template_VarnishAgg
+   - Zabbix server is recomended or any host that is dedicated to run all the
+     scripts
+- In that host (not a varnish group host), link the Template_VarnishAgg on it
+- Configure in Template_VarnishAgg the macro:
+   {$MYGROUP} = Varnish
+- Link all the Varnish hosts to the Template_Varnish and Varnish Group
 
-Option for N varnish groups:
 
-- Create a Template_VarnishMyGroup
-   - Change the group to "VarnishMyGroup" inside the Template configuration
-   - link the Template_Varnish on this template
-- Clone the Template_VarnishAgg to Template_VarnishMyGroupAgg
-     - you need a different host for each aggregation, or you can change the
-       macro name in all items if you want to link the cloned  template in
-       the same host for all group aggregations. I recommend you run all
-       togheter in host that will run all scripts. In most cases it is the
-       host of the zabbix server itself
-     - configure the macro to your new group in the host configuration
-         - {$MYGROUP} = VarnishMyGroup
-         - or {$MYGROUP2} = VarnishMyGroup , if you changed all the items
+2 varnish groups, no auto-register:
 
-- Link you varnish hosts in the template Template_VarnishMyGroup
-     - or use the auto-register script
- 
-Install the scripts using chef
+- Add the recipe zabbix-aws::agent-varnish to the Varnish's role
+  (or copy the agentd conf file varnish.conf to the servers)
+  * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
+  * Edit the varnish.conf to add your own Zabbix server
+- Import both templates into Zabbix server
+- Create a Template_VarnishMyGroup1
+   - In the creating form, add the group Templates, for organization
+   - Still in the creating form, use "MyGroup1" as a new group
+   - Link the Template_Varnish on this new template
+- Create a Template_VarnishMyGroup1Agg
+   - In the creating form, add the group Templates, for organization
+   - Link the Template_VarnishAgg on this new template
+   - Confirgure the macro {$MYGROUP}=VarnishMyGroup1
+- Pick up a host to run the aggregations, link it to the 
+  Template_VarnishMyGroup1agg
+   - Zabbix server is recomended or any host that is dedicated to run all the
+     scripts
+- Link all the Varnish hosts of the MyGroup1 pool into the Template_VarnishMyGroup1
+- Repeat to Template_VarnishMyGroup2
+  
+Using auto-register: 
+
+1 varnish group:
   - Use the chef's zabbix-aws::agent-varnish recipe at the hosts' role
     * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
-  - Edit the file chef/cookbooks/zabbix-aws/files/default/varnish/varnish.conf
-    and use your zabbix server
-  - Use the manual instalation below to understand how does it work
+    * Edit the varnish.conf to add your own Zabbix server
+  - add to your varnish role the recipe zabbix-aws::agent-autoregister
 
-  In case you use the auto-register script:
-  - Create a tag in the hosts's role like "Varnish" or "VarnishMyGroup"
-      - it will be used to trigger the auto-register script
-      - once it is registered, the tag will change to <mytag>-REGISTERED
+2 varnish groups:
 
-Install the scripts manually
-  In the varnish servers that will run the script
+  - Copy the recipe zabbix-aws::agent-varnish locate at:
+      cookbooks/zabbix-aws/agent-varnish.rb
+    to:
+      cookbooks/zabbix-aws/agent-varnishmygroup1.rb
+  - Change the tags commands from Varnish to VarnishMyGroup1
+  - copy or change your role to use this recipe instead of varnish default
+  - add the recipe zabbix-aws::agent-autoregister to your role
+  - Update the role and cookbook in the chef server
+  - repeat to the VarnishMyGroup2
+
+Install the agent files manually
+
+  In the varnish servers:
     - create the directory /etc/zabbix/agentd.d/
          $ sudo mkdir /etc/zabbix/agentd.d
-    - copy file files/default/varnish/varnish.conf
-      in the same chef cookbook to /etc/zabbix/agentd.d/varnish.conf
+    - copy file cookbooks/zabbix-aws/files/default/varnish/varnish.conf
+      to /etc/zabbix/agentd.d/varnish.conf
+    - edit the Zabbix server in that file to your own Zabbix server
     - include the configurations in the agentd:
          $ echo 'Include=/etc/zabbix/agentd.d/' |
            sudo tee -a /etc/zabbix/agentd.conf

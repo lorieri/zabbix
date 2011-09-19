@@ -30,19 +30,4 @@ template "/usr/local/bin/zabbix-cloudwatch.py" do
   notifies :restart, resources(:service => "zabbix-agent" ), :delayed
 end
 
-#de-register scripts
-template "/usr/local/bin/zabbix_deregister.sh" do
-  source "deregister/zabbix_deregister.sh"
-  mode 0750
-  owner "zabbix"
-  group "root"
-  notifies :restart, resources(:service=> "zabbix-agent"), :delayed
-end
-
-template "/usr/local/bin/zabbix_get_instances.py" do
-  source "deregister/zabbix_get_instances.py.erb"
-  mode 0750
-  owner "zabbix"
-  group "root"
-  notifies :restart, resources(:service=> "zabbix-agent"), :delayed
-end
+# you may want to use the recipe agent-deregister too

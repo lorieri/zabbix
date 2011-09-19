@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<zabbix_export version="1.0" date="09.09.11" time="19.30">
+<zabbix_export version="1.0" date="19.09.11" time="14.05">
   <hosts>
-    <host name="Template_CloudWatch">
+    <host name="Template_Cloudwatch">
       <proxy_hostid>0</proxy_hostid>
       <useip>1</useip>
       <dns></dns>
@@ -17,12 +17,13 @@
       <ipmi_password></ipmi_password>
       <groups>
         <group>Templates</group>
+        <group>CloudWatch</group>
       </groups>
       <triggers>
         <trigger>
           <description>Cloudwatch All traffic decreased more than 20% in the last 10 minutes</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&gt;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&gt;1.25</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&gt;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&gt;1.25</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -31,7 +32,7 @@
         <trigger>
           <description>Cloudwatch All traffic increased more than 10% in the last 10 minutes</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&lt;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&lt;0.9</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&lt;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&lt;0.9</expression>
           <url></url>
           <status>0</status>
           <priority>2</priority>
@@ -40,7 +41,7 @@
         <trigger>
           <description>Cloudwatch All traffic increased more than 20% in the last 10 minutes</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&lt;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&lt;0.833</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&lt;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&lt;0.833</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -49,7 +50,7 @@
         <trigger>
           <description>Cloudwatch All traffic decreased more than 10% in the last 10 minutes</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&gt;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&gt;1.11</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}&gt;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&amp;{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,600)}/{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].avg(600,0)}&gt;1.11</expression>
           <url></url>
           <status>0</status>
           <priority>2</priority>
@@ -58,16 +59,7 @@
         <trigger>
           <description>Cloudwatch traffic items are not being updated</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].nodata(120)}=1</expression>
-          <url></url>
-          <status>0</status>
-          <priority>5</priority>
-          <comments></comments>
-        </trigger>
-        <trigger>
-          <description>Error running AutoScaling deregister script</description>
-          <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.deregister.last(0)}&gt;0</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum].nodata(120)}=1</expression>
           <url></url>
           <status>0</status>
           <priority>5</priority>
@@ -76,7 +68,7 @@
         <trigger>
           <description>RDS Items are not being updated</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},DatabaseConnections,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].nodata(120)}=1</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},DatabaseConnections,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].nodata(120)}=1</expression>
           <url></url>
           <status>0</status>
           <priority>5</priority>
@@ -85,7 +77,7 @@
         <trigger>
           <description>RDS Low free disc, 1G left</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},FreeStorageSpace,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&lt;1073741824</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},FreeStorageSpace,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&lt;1073741824</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -94,7 +86,7 @@
         <trigger>
           <description>Less than the minumum required machines in the Autoscaling pool</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}&lt;{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}&lt;{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -103,7 +95,7 @@
         <trigger>
           <description>Autoscaling reached max instances</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}={Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}={Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -112,7 +104,7 @@
         <trigger>
           <description>RDS Read Latency bigger than 1 second</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},ReadLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&gt;1</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},ReadLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&gt;1</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -121,7 +113,7 @@
         <trigger>
           <description>RDS More than 200M of swap usage</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},SwapUsage,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&gt;209715200</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},SwapUsage,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&gt;209715200</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -130,7 +122,7 @@
         <trigger>
           <description>RDS Write Latency bigger than 1 second</description>
           <type>0</type>
-          <expression>{Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},WriteLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&gt;1</expression>
+          <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},WriteLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}].last(0)}&gt;1</expression>
           <url></url>
           <status>0</status>
           <priority>4</priority>
@@ -138,7 +130,7 @@
         </trigger>
       </triggers>
       <items>
-        <item type="0" key="cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum]" value_type="0">
+        <item type="7" key="cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum]" value_type="0">
           <description>All.Max.NetworkIn</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -169,7 +161,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]" value_type="0">
+        <item type="7" key="cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]" value_type="0">
           <description>All.NetworkIn</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -200,7 +192,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum]" value_type="0">
+        <item type="7" key="cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum]" value_type="0">
           <description>All.Max.NetworkOut</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -231,7 +223,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]" value_type="0">
+        <item type="7" key="cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]" value_type="0">
           <description>All.NetworkOut</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -262,7 +254,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.deregister" value_type="3">
+        <item type="7" key="cloudwatch.deregister" value_type="3">
           <description>Autoscaling.deregister</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>120</delay>
@@ -293,7 +285,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},CPUUtilization,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},CPUUtilization,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.CPUUtilization.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -324,7 +316,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},DatabaseConnections,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},DatabaseConnections,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="3">
           <description>RDS.DatabaseConnections.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -355,7 +347,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},FreeableMemory,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},FreeableMemory,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.FreeableMemory.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>120</delay>
@@ -386,7 +378,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},FreeStorageSpace,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},FreeStorageSpace,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.FreeStorageSpace.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>180</delay>
@@ -417,7 +409,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupDesiredCapacity</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -448,7 +440,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupInServiceInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -479,7 +471,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupMaxSize</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -510,7 +502,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupMinSize</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -541,7 +533,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupPendingInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -572,7 +564,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupTerminatingInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -603,7 +595,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="3">
           <description>Autoscaling.GroupTotalInstances</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>300</delay>
@@ -634,7 +626,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.Max.NetworkIn</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -665,7 +657,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.NetworkIn</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -696,7 +688,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.Max.NetworkOut</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -727,7 +719,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]" value_type="0">
           <description>Autoscaling.NetworkOut</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -758,7 +750,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},ReadIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},ReadIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.ReadIOPS.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -789,7 +781,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},ReadLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},ReadLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.ReadLatency.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -820,7 +812,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},ReadThroughput,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},ReadThroughput,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.ReadThroughput.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -851,7 +843,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},SwapUsage,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="3">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},SwapUsage,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="3">
           <description>RDS.SwapUsage.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>120</delay>
@@ -882,7 +874,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},WriteIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},WriteIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.WriteIOPS.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -913,7 +905,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},WriteLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},WriteLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.WriteLatency.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -944,7 +936,7 @@
           <snmpv3_privpassphrase></snmpv3_privpassphrase>
           <applications/>
         </item>
-        <item type="0" key="cloudwatch.dimension[{$MYACCOUNT},WriteThroughput,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
+        <item type="7" key="cloudwatch.dimension[{$MYACCOUNT},WriteThroughput,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]" value_type="0">
           <description>RDS.WriteThroughput.average</description>
           <ipmi_sensor></ipmi_sensor>
           <delay>60</delay>
@@ -993,7 +985,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>3333FF</color>
@@ -1002,7 +994,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
               <drawtype>5</drawtype>
               <sortorder>1</sortorder>
               <color>009900</color>
@@ -1011,7 +1003,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum]">
               <drawtype>2</drawtype>
               <sortorder>2</sortorder>
               <color>0000CC</color>
@@ -1020,7 +1012,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum]">
               <drawtype>2</drawtype>
               <sortorder>3</sortorder>
               <color>008800</color>
@@ -1046,7 +1038,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>3333FF</color>
@@ -1055,7 +1047,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
               <drawtype>5</drawtype>
               <sortorder>1</sortorder>
               <color>009900</color>
@@ -1081,7 +1073,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
               <drawtype>0</drawtype>
               <sortorder>2</sortorder>
               <color>000088</color>
@@ -1090,7 +1082,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
               <drawtype>5</drawtype>
               <sortorder>3</sortorder>
               <color>3333FF</color>
@@ -1099,7 +1091,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum]">
               <drawtype>0</drawtype>
               <sortorder>4</sortorder>
               <color>6666FF</color>
@@ -1108,7 +1100,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
               <drawtype>0</drawtype>
               <sortorder>5</sortorder>
               <color>006600</color>
@@ -1117,7 +1109,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
               <drawtype>5</drawtype>
               <sortorder>11</sortorder>
               <color>009900</color>
@@ -1126,7 +1118,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.all[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum]">
               <drawtype>0</drawtype>
               <sortorder>12</sortorder>
               <color>00CC00</color>
@@ -1152,7 +1144,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},CPUUtilization,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},CPUUtilization,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>DD0000</color>
@@ -1161,7 +1153,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},DatabaseConnections,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},DatabaseConnections,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
               <drawtype>2</drawtype>
               <sortorder>1</sortorder>
               <color>0000BB</color>
@@ -1187,7 +1179,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},FreeStorageSpace,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},FreeStorageSpace,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
               <drawtype>1</drawtype>
               <sortorder>0</sortorder>
               <color>000077</color>
@@ -1213,7 +1205,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupTotalInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>BBBBBB</color>
@@ -1222,7 +1214,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupMaxSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>0</drawtype>
               <sortorder>1</sortorder>
               <color>444444</color>
@@ -1231,7 +1223,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupPendingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>2</sortorder>
               <color>FFFF33</color>
@@ -1240,7 +1232,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>3</sortorder>
               <color>00EE00</color>
@@ -1249,7 +1241,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupDesiredCapacity,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>4</drawtype>
               <sortorder>4</sortorder>
               <color>3333FF</color>
@@ -1258,7 +1250,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupTerminatingInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>0</drawtype>
               <sortorder>5</sortorder>
               <color>EE0000</color>
@@ -1267,7 +1259,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>0</drawtype>
               <sortorder>6</sortorder>
               <color>555555</color>
@@ -1293,7 +1285,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>3333FF</color>
@@ -1302,7 +1294,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>1</sortorder>
               <color>009900</color>
@@ -1311,7 +1303,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>2</drawtype>
               <sortorder>2</sortorder>
               <color>0000AA</color>
@@ -1320,7 +1312,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>2</drawtype>
               <sortorder>3</sortorder>
               <color>007700</color>
@@ -1346,7 +1338,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},NetworkOut,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>0</sortorder>
               <color>3333FF</color>
@@ -1355,7 +1347,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},NetworkIn,AWS/EC2,Sum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}]">
               <drawtype>5</drawtype>
               <sortorder>1</sortorder>
               <color>009900</color>
@@ -1381,7 +1373,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},ReadIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},ReadIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
               <drawtype>2</drawtype>
               <sortorder>0</sortorder>
               <color>0000BB</color>
@@ -1390,7 +1382,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},WriteIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},WriteIOPS,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
               <drawtype>2</drawtype>
               <sortorder>2</sortorder>
               <color>BB0000</color>
@@ -1416,7 +1408,7 @@
           <percent_left>0.0000</percent_left>
           <percent_right>0.0000</percent_right>
           <graph_elements>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},WriteLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},WriteLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
               <drawtype>2</drawtype>
               <sortorder>0</sortorder>
               <color>BB0000</color>
@@ -1425,7 +1417,7 @@
               <type>0</type>
               <periods_cnt>5</periods_cnt>
             </graph_element>
-            <graph_element item="Template_CloudWatch:cloudwatch.dimension[{$MYACCOUNT},ReadLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
+            <graph_element item="Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},ReadLatency,AWS/RDS,Average,DBInstanceIdentifier={$RDSINSTANCE}]">
               <drawtype>2</drawtype>
               <sortorder>1</sortorder>
               <color>0000BB</color>
