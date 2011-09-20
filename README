@@ -4,10 +4,10 @@ This is an usable proof of concept on how to manage an efficient monitoring
 over AWS installations using the Zabbix monitoring tool from Zabbix SIA
 You can find more information about Zabbix at www.zabbix.com
 
-It has 4 main goals:
+It has 6 main goals:
   - Templatization
   - Aggregation
-  - Trapper items
+  - Resources optimization
   - Abstraction
   - Auto-register, auto-deregister
   - Chef automation 
@@ -28,11 +28,11 @@ AWS instances creation and destruction, and still be able to plan for best
 resources usage. It is similiar as how Cloudwatch do, but lasts longer than
 few weeks
 
-Trapper items
+Resources optimization
 
-Trapper items are "listeners" items, and you can send all the values at same
-time from the zabbix_sender tool. It helps to get snapshots of a moment and
-make calculated items more accurate
+By using trapper items are "listeners" items, and you can send all the values
+at same time from the zabbix_sender tool. It helps to get snapshots of a moment
+and make calculated items more accurate. And not to using lots os custom items
 
 Abstraction
 
