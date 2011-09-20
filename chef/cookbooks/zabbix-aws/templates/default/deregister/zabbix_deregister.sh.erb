@@ -4,9 +4,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 #Testing argument
 test -z "$1" -o -z "$2" && { echo "Usage: zabbix_deregister.sh [mygroup] [myaccount]"; exit 1; }
 
-URL='zabbix.mydomain.com.br/zabbix/api_jsonrpc.php'
-USER=admin
-PASSWORD=zabbix
+URL='<%= @node[:zabbixaws][:auto][:jsonurl] %>'
+USER='<%= @node[:zabbixaws][:auto][:user] %>'
+PASSWORD='<%= @node[:zabbixaws][:auto][:password] %>'
 
 GROUP="$1"
 ACCOUNT="$2"

@@ -1,6 +1,8 @@
 include_recipe "zabbix::agent"
 
-if not tagged?('zabbix-Varnish-REGISTERED')
+expected_tag = "REGISTERED"
+
+if not tagged?("zabbix-Varnish-#{expected_tag}")
         if not tagged?("zabbix-Varnish")
                 tag('zabbix-Varnish')
         end
@@ -18,8 +20,8 @@ directory "/etc/zabbix/agentd.d" do
 end
 
 
-cookbook_file "/etc/zabbix/agentd.d/varnish.conf" do
-  source "varnish/varnish.conf"
+template "/etc/zabbix/agentd.d/varnish.conf" do
+  source "varnish/varnish.conf.erb"
   owner "zabbix"
   group "root"
   mode "0750"

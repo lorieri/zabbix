@@ -1,5 +1,12 @@
 name "varnishMygroup"
 description "VarnishMyGroup"
+
+override_attributes "zabbixaws" => {
+        "server" => {
+                "hostname" => "zabbix.mydomain.com.br"
+        }
+}
+
 run_list [
   "recipe[zabbix-aws::agent-varnishMyGroup]"
 ]
@@ -10,8 +17,4 @@ run_list [
 #        recipe[zabbix-aws::agent-varnish] ->
 #              recipe[zabbix::agent]
 
-
-# soon
-#
-#   "recipe[zabbix-aws::agent-autoregister]",
-#   ]
+#   and "recipe[zabbix-aws::agent-autoregister]"

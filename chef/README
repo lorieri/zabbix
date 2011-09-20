@@ -2,3 +2,5 @@ Chef Automations
 
 cookbooks/zabbix-aws/README -> instructions for auto-register. for other
                                instructions, check the templates' README
+
+roles/                      -> examples of roles

@@ -7,13 +7,13 @@ test -z "$1" && { echo "Usage: zabbix_register_api.sh  [mytag]"; exit 0; }
 MYTAG=$1
 
 #api url
-URL='zabbix.mydomain.com.br/zabbix/api_jsonrpc.php'
-USER='user'
-PASSWORD='password'
+URL='<%= @node[:zabbixaws][:auto][:jsonurl] %>'
+USER='<%= @node[:zabbixaws][:auto][:user] %>'
+PASSWORD='<%= @node[:zabbixaws][:auto][:password] %>'
 
 #machine's amazon informations
-DNS=`wget --tries=1 --timeout=15 -q -O- http://169.254.169.254/latest/meta-data/hostname`
-ISID=`wget --tries=1 --timeout=15 -q -O- http://169.254.169.254/latest/meta-data/instance-id`
+DNS=`<%= @node[:zabbixaws][:auto][:dnscommand] %>`
+ISID=`<%= @node[:zabbixaws][:auto][:isidcommand] %>`
 
 #testing amazon informations
 test -z "$DNS" && { echo "Erro ao pegar DNS"; exit 0; }
@@ -62,6 +62,5 @@ REGISTER=`wget --tries=1 --timeout=20 -q -O- --header="Content-Type: application
 }
 '`
 
-echo $REGISTER
 echo "$REGISTER"|grep -q '"hostids":\["[0-9]*"\]' || { echo "Error registering $DNS !!!!"; exit 0 ; }
 echo "-> $DNS registered !!"

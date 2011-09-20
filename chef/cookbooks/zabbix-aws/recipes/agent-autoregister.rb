@@ -1,6 +1,7 @@
 #### PLEASE INCLUDE THIS RECIPE AT THE END OF YOUR GROUP RECIPE
 
-expected_tag="REGISTERED"
+if not expected_tag
+	expected_tag="REGISTERED"
 
 node[:tags].each do |p|
         if p =~ /^zabbix/
@@ -11,8 +12,8 @@ node[:tags].each do |p|
                         Chef::Log.info("Trying to register in the Zabbix using the Template and Group: #{z}")
 
 
-			cookbook_file "/root/zabbix_autoregister.sh" do
-				source "auto-register/zabbix_autoregister_wget.sh"
+			template "/root/zabbix_autoregister.sh" do
+				source "auto-register/zabbix_autoregister_wget.sh.erb"
                                 #use the one below if you have curl available and not wget
 				#source "auto-register/zabbix_autoregister_curl.sh"
 				owner "root"

@@ -1,36 +1,35 @@
-Scripts below are based on Amazon AWS, you can easly change it to othe kinds
-of infrastructures, check the "Requirements" for more information
+Scripts below are based on Amazon AWS, but you can easly change it to other
+kind of infrastructure, check the "Requirements" for more information
 
 De-register:
 
 It is based on 2 scripts, one that gets a list of Amazon EC2 instances from a
-given account and the list of node of a given Zabbix group and compare both
-lists to decide which machines to deregister or disable the monitoring in
-Zabbix server. If you are not using Amazon you need to change the way the lists
-are built and compared.
-**** Be careful, it is beta, you have 2 options: remove or disable the hosts
-**** Removing is better, but it is dangerous, the default is to disable
+given account and the list of nodes of a given Zabbix group, and then compares
+both lists to decide which machines to deregister or disable the monitoring in
+the Zabbix server. If you are not using Amazon you need to change the way the
+lists are built and compared.
+**** You have 2 options: remove or disable the hosts, the default is to disable
 **** If you want to delete the hosts, uncomment the last lines of the script
 
 Notes:
 
-   - This script is based in the EC2 Instance-Id, it is stored as the machine
-     name on Zabbix and it is used to be compated to the Amazon's running 
+   - This script is based in the EC2 Instance-Id. It is stored as the machine
+     name on Zabbix and it is also used to be compared to the Amazon's running
      instances. If you use a diferent name for machines, the name will not 
      match with the Amazon list and the machine will be disabled or removed
-     in the Zabbix server and your historical data will be lost. You can 
-     change both scripts to have a better list and comparsion
+     in the Zabbix server and your historical data can be lost. You can change
+     the way the lists are get and compared in both scripts
    - There is a template for the deregister items, usually it is linked into
      the Template_Scripts, the template used to a host that will take care of 
      all stand-alone monitoring (like cloudwatch and group aggreagations)
      * THIS ITEM IS DISABLED BY DEFAULT, YOU HAVE TO ENABLE THIS ITEM AND
        CONFIGURE ITS MACROS *
-   - Amazon's API is unpredictable getting terminated instances, so a complete
-     list of instances is necessary
-   - It is recommended only for autoscaling groups
+   - Amazon's API is unpredictable when getting terminated instances, so a
+     complete list of instances of the account is necessary
+   - I recommended de-registration only for autoscaling groups
 
 Requirements:
-   - An IAM account able to list all instances, nothing more
+   - An IAM account able to list all EC2 instances, nothing more
    - Python-boto in the script server (will be installed by chef)
    - An user with RW rights to the API, to the Discovered Hosts's group, to
      the Templates group (all your templates should be add to that group) and
@@ -39,11 +38,11 @@ Requirements:
 How to:
 
   Installing the agent using Chef:
+    * Check the roles examples
     - Added to the host that will handle all aggregations and stand-alone
       monitorings the recipe zabbix-aws::agent-deregister
-    - Added the accounts configurations (1 to 5 accounts) to your role. The
-      "myrole.rb" example that changes the default attributes of the cookbook
-      zabbix-aws is placed at chef/roles/myrole.rb
+    - Replace in your role the default cookbook's attributes with your AWS
+      accounts (up to 5 accounts)
 
   Installing the agent manually:
 
@@ -75,24 +74,30 @@ How to:
   Installing the template for 1 deregistration group/account:
     - Import the template into the Zabbix server
     - Link it to the host you installed the agent
-      Zabbix server is recomended
+      (Zabbix server or a dedicate host for scripts is recommended)
     - Configure the template's macros:
-      {$DE_MYACCOUNT}, {$DE_MYGROUP}
+      {$DE_MYACCOUNT} = with the aws account that lists the instances
+      {$DE_MYGROUP}   = with the group of machines to be checked
 
   Installing the template for 2 deregistration groups/accounts:
     - Import the template into the Zabbix server
     - Create a new template called Template_DeRegisterMyGroup1
     - Link the Template_DeRegister on it
-    - Configure the template's macros:
-      {$DE_MYACCOUNT}, {$DE_MYGROUP}
+    - Configure the template's macros for the new template:
+      {$DE_MYACCOUNT} = with the aws account that lists the instances
+      {$DE_MYGROUP}   = with the group of machines to be checked
     - repeat for DeRegisterMyGroup2
 
-
 Workflow:
-   - The template asks, every minute, asks for thee key auto.deregister 
+   - The template asks, every minute, for the key auto.deregister 
    - The key opens the script to processed with the following actions:
       - Get list of EC2 instances using {$DE_MYACCOUNT}
       - Get the list of Zabbix nodes in the groups {$DE_MYGROUP}
-   - Compare both lists, if there is an instance present in the Group and not
-     present at EC2 anymore, it is disabled (or removed) from the Zabbix server
+   - It compares both lists, if there is an instance present in the Group and
+     not present at EC2 anymore, it is disabled (or removed) from Zabbix server
+   - In case of error, the script returns exit code 0, and a trigger (alert)
+     in the Zabbix server alerts you
+   - There is another trigger to tells you if the script is not called from
+     last 2 minutes
+
    * Use aggregated monitoring to persist teminated instances values

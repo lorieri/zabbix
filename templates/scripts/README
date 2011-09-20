@@ -1,36 +1,48 @@
-This template is an example of a template that imports all monitoring not
-related to a single machine. It has the aggregations, the cloudwatch items,
-the deregistration automation and the and all the macros required byy them
+This template is an example of a template that imports all monitoring that
+are not related to a single machine. It has the aggregations, cloudwatch items,
+the deregistration automation and all the macros required by them
 
-Note: It also contains the LinuxBasic template, if you already added it to
-your host it can cause a conflict. You have a good option:
+Notes
 
- - Unlink the Template_LinuxBasic from your host without clear it
- - Once you import the Template_Scripts, all your previous LinuxBasic items
-   will be back to Template_LinuxBasic
+ - It also contains the LinuxBasic template, if you already added it to your
+   host, it can cause a conflict. You have a good option:
+   - Unlink the Template_LinuxBasic from your host WITHOUT clear option, doing
+     that your items will not relate to the LinuxBasic template anymore
+   - Once you import the Template_Scripts, and link to your host, all your
+     previous LinuxBasic items will be linked back to Template_LinuxBasic
+
+ - If you want to see everything working, you will need a Varnish pool group,
+   an AWS read-only account to get cloudwatch values, a running RDS instance,
+   and an Autoscaling group. But none are required.
 
 
 Requirements:
 
  - Import all the other templates before start
 
-Notes:
-
- - If you want to see everything working, you will need a Varnish pool group,
-   a AWS read-only account to get cloudwatch values, a running RDS instances,
-   and an Autoscaling group. But none are required.
-
-
 How to:
 
  - Import all other templates into Zabbix server
  - Import this template into Zabbix server
  - Chose a host to link the template, usually it is the Zabbix Server or a
-   host dedicated to run scripts
+   host dedicated to run "stand-alone" scripts
  - Install the following chef recipes in that host's role or recipe:
-   *check their templates instructions for manually and automated instalations
+   *check their templates instructions for manually and automated instalations 
+   *check the roles examples too
 
    zabbix::agent-deregister
    zabbix::agent-cloudwatch
 
- - Configure the macros
+ - Configure the templates macros:
+
+   Cloudwatch:
+   {$MYACCOUNT}            = the account you use to connect in the cloudwatch
+   {$RDSINSTANCE}          = the RDS instances you want to monitor 
+   {$AUTOSCALINGGROUPNAME} = for your autoscaling cloudwatch monitoring
+
+   Deregistration:
+   {$DE_MYACCOUNT}         = for the AWS account used for the deregistration
+   {$DE_MYGROUP}           = the Zabbix group used for the deregistration
+
+   Varnish Aggregation:
+   {$MYGROUP}              = the Varnish group you will aggregate values

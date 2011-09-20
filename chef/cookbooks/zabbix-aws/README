@@ -1,4 +1,4 @@
-***** You can find information about the recipes from the templates
+***** You can find information about the recipes from the templates directory
 ***** The only recipe the docummentation is right here is the Auto-register
 
 Scripts below are based on Amazon AWS, but you can easly change it to other
@@ -19,7 +19,8 @@ Notes:
      have it pre-installed in your AMI (Amazon image)
    - It is based on Amazon EC2 and it tries to retrieve instance information
      from Amazon to store on DNS and ISID variables, you may want to change
-     it to `hostname` instead if you are not using Amazon.
+     it to `hostname` instead if you are not using Amazon. Using chef you can
+     just change the cookbook's default attributes
    - The name of the host is the Amazon EC2 Instance-id. This name will be
      used by the de-register script and by Chef to control Amazon instances.
      Zabbix 1.8.7 added more flexibility by creating a new field for machines'
@@ -27,36 +28,44 @@ Notes:
    - Scripts have timeout both for curl and wget, you may want to change it
      depending on your envinronment and how far or how stressed is you Zabbix
      Server
-   - In case of error, the script do not blocks Chef's execution. But you may
-     want to change the exit code from 0 to 1 if you want it blocked. If you
+   - In case of error, the script does not block Chef's execution. You may
+     want to change the exit codes from 0 to 1 if you want it blocked. If you
      have 24x7 support team, I recommend you change it to 1.
    - Using chef, if you want to force a SINGLE machine to be registered/enabled
-     again, change it's node tag back to zabbix-MYGROUP without the postfix
+     again, change it's node tag back to zabbix-MYGROUP without the sufix
    - Using chef, if you want to force ALL machines to be registered/enabled
-     again, change the recipe's variable "expected_tag" to a new value and all
-     machines will try again in the next chef-client run
+     again, change the autoregister recipe's variable "expected_tag" to a new
+     value, using the same in the statement "if not tagged?" in the machine's
+     recipe. So all machine will try again in the next chef-client run.
+     If you use auto-register in more than one recipe, you should change the
+     expected_tag on those recipes instead (check the varnish recipe example)
 
 
 Requirenments:
 
-   - An Zabbix user with API access and RW rights on all templates and groups
+   - A Zabbix user with API access and RW rights on all templates and groups
      you will interact with. Rembember the script auto-includes the Discovered
      Hosts' group and the Template_LinuxBasic. Make sure your Template doesn't
      link the Template_LinuxBasic on it, otherwise it will conflict
-   - So far and since it is a single script, it is not templatized on chef, you
-     have to edit it directly to change Zabbix's user and password
+   - If you have a machine already linked to LinuxBasic template, unlink it
+     WITHOUT CLEAR the items, so when you link it again, all old items will be
+     part of the template again
+   - Unfortunately you can't interact with Chef's tag directly in the roles,
+     you have to do that at recipes level
 
 Howto:
 
-   - Put a tag called "zabbix-MYGROUP" at your role or recipe to tag all the
+   - If you use chef, check the cookbook's default attributes, and if you need,
+     replace them in you role (check roles examples)
+   - Put a tag called "zabbix-MYGROUP" at your recipe to tag all the
      machines in your group
-   - Include the recipe zabbix-aws::auto-register at the end of your role or
-     recipe to trigger the auto-registration process
+   - Include the recipe zabbix-aws::auto-register at the end of your role, or
+     to your recipe, to trigger the auto-registration process
    
 Workflow:
    - Chef searches for the node's zabbix tag
    - if registered, do nothing
-   - if not registered (tag doesn't contain REGISTERED)
+   - if not registered (tag doesn't contain sufix "REGISTERED")
        - Search for the group in the tag's name after zabbix-
        - Search for a Template with the same group name
        - Register the machine into Zabbix using all below:
@@ -64,6 +73,5 @@ Workflow:
            - this template
            - the LinuxBasic template
            - the Discovered Hosts group
-       - It also tries to enable the machine in case it was only disabled by
-         the de-register script
        - Tag the host as REGISTERED
+

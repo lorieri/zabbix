@@ -1,6 +1,6 @@
 Linux basic monitoring for Zabbix 1.8.5
 
-Goals: add abstraction to default linux template, optimization for EC2
+Goals: add abstraction to default linux template, add optimization for EC2
 
 
 Description:
@@ -22,7 +22,7 @@ Examples of:
 
 Notes:
      - remove/change items accordingly to your needs
-     - this template is fork of the default linux template
+     - this template is a fork of the default linux template
      - pay attention, some graphics have scales in both sides      
 
 Requirenments: none, only the default agent running in the clients
@@ -32,7 +32,8 @@ How to:
   - Import the template
   - Link it to the instances
     (it can be done by the auto-register script)
-  - if you have different devices, add them to the triggers and graphs
+  - if you have different system devices, add them to the triggers and graphs
+    * check the items and graphs if something is missing for you
   - you can group related triggers to get less noise
 
 

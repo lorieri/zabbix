@@ -13,8 +13,8 @@ directory "/etc/zabbix/agentd.d" do
   recursive true
 end
 
-cookbook_file "/etc/zabbix/agentd.d/cloudwatch.conf" do
-  source "cloudwatch/cloudwatch.conf"
+template "/etc/zabbix/agentd.d/cloudwatch.conf" do
+  source "cloudwatch/cloudwatch.conf.erb"
   owner "zabbix"
   group "root"
   mode 0600

@@ -16,7 +16,7 @@ end
 #de-register scripts
 #even though some files are static, I put all together
 template "/usr/local/bin/zabbix_deregister.sh" do
-  source "deregister/zabbix_deregister.sh"
+  source "deregister/zabbix_deregister.sh.erb"
   mode 0750
   owner "zabbix"
   group "root"

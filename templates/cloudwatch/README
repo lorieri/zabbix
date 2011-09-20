@@ -10,6 +10,8 @@ Requirenments:
  - Python boto at the server that will run the collector script
    $ sudo apt-get install python-boto (or use chef's recipe below)
 
+ - Your Zabbix agent must include the /etc/zabbix/agent.d/ directory
+
 Warning: even though it is cheap, you pay per thousands requests
 	 to get Cloudwatch information using the API
 
@@ -22,23 +24,17 @@ Warning: even though it is cheap, you pay per thousands requests
  - Understand how Cloudwatch works and what information you can get from it
    to add more items
  - Create an IAM account with read-only access to Cloudwatch
- - Chose a host (can be the zabbix server) to run the scripts
-
-
-Notes:
-
- - I recommend to install the scripts in the Zabbix server or in a host
-   dedicated to handle all aggregations and stand-alone monitoring 
-
-
+ - Chose a host to run the scripts, the Zabbix server is recommended, or use
+   a dedicated host to run all stand-alone scripts and items that does not
+   depend in any other host
 
 How to:
 
  Install the agent configurations using chef:
   - Include the chef's recipe zabbix-aws::agent-cloudwatch at the hosts' role
     * Your zabbix-agent have to include the dir /etc/zabbix/agentd.d/
-  - Use the role chef/roles/myrole.rb as example of the accounts configuration
-    You can use 1 to 5 accounts
+  - Check the roles examples to replace the cookbook's default attributes and 
+    configure up to 5 AWS accounts (chef/roles/ directory) 
 
  Install the agent configurations manually:
 
@@ -82,7 +78,8 @@ How to:
     {$AUTOSCALINGGROUPNAME} = my_autoscaling_groupname
     {$RDSINSTANCE} = my_DBInstanceIdentifier
   - Link the template in the host you installed the agent
-    **** THE HOST CAN'T CONTAIN SIMILAR MACROS, THE HAVE PRIORITY ***
+    **** THE HOST MACROS HAVE PRIORITY PRECEDENCE ON TEMPLATE'S MACROS ****
+    **** MAKE SURE YOUR HOST HAS NOT SIMILAR MACROS                    ****
   - Repeat for the new account using Tempalte_CloudwatchMyAccount2
   
 
