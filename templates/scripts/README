@@ -1,0 +1,36 @@
+This template is an example of a template that imports all monitoring not
+related to a single machine. It has the aggregations, the cloudwatch items,
+the deregistration automation and the and all the macros required byy them
+
+Note: It also contains the LinuxBasic template, if you already added it to
+your host it can cause a conflict. You have a good option:
+
+ - Unlink the Template_LinuxBasic from your host without clear it
+ - Once you import the Template_Scripts, all your previous LinuxBasic items
+   will be back to Template_LinuxBasic
+
+
+Requirements:
+
+ - Import all the other templates before start
+
+Notes:
+
+ - If you want to see everything working, you will need a Varnish pool group,
+   a AWS read-only account to get cloudwatch values, a running RDS instances,
+   and an Autoscaling group. But none are required.
+
+
+How to:
+
+ - Import all other templates into Zabbix server
+ - Import this template into Zabbix server
+ - Chose a host to link the template, usually it is the Zabbix Server or a
+   host dedicated to run scripts
+ - Install the following chef recipes in that host's role or recipe:
+   *check their templates instructions for manually and automated instalations
+
+   zabbix::agent-deregister
+   zabbix::agent-cloudwatch
+
+ - Configure the macros
