@@ -1,3 +1,9 @@
+                                                        (  )
+                      _, _ .                         ( `  ) . )
+                     ( (  _ )_                      (_, _(  ,_)_)
+                   (_(_  _(_ ,)
+
+
 POC for AWS monitoring using Zabbix and Chef automation
 
 This is an usable proof of concept on how to manage an efficient capacity
@@ -79,3 +85,17 @@ TODO/Limitations/Known issues:
  - improve the calculate itens for low traffic machines don't divide by zero
    and disable the item/trigger for a while 
 
+               _  _
+              ( `   )_
+             (    )    `)
+           (_   (_ .  _) _)
+                                          _
+                                         (  )
+          _ .                         ( `  ) . )
+        (  _ )_                      (_, _(  ,_)_)
+      (_  _(_ ,)
+                                                              
+               _  _     
+              ( `   )_    
+            (    )    `)      
+           (_   (_ .  _) _) 
