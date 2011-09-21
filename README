@@ -1,8 +1,12 @@
 POC for AWS monitoring using Zabbix and Chef automation
 
-This is an usable proof of concept on how to manage an efficient monitoring
-over AWS installations using the Zabbix monitoring tool from Zabbix SIA
-You can find more information about Zabbix at www.zabbix.com
+This is an usable proof of concept on how to manage an efficient capacity
+planning (do more with less) and monitoring for cloud computing over Amazon's
+AWS installations and using Zabbix SIA's monitoring tool and Opscode's Chef
+automation tool
+
+100% tested (by me only)
+100% documented, but you need to know AWS, Zabbix and Chef
 
 It has 6 main goals:
   - Templatization
