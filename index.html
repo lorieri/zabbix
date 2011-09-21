@@ -67,6 +67,7 @@ It has 6 main goals:<br>
   <li> Auto-register, auto-deregister
   <li> Chef automation 
 <br>
+<br>
 Those concepts are not new nor invented by me, but here you can find an easy
 way to implement them either for AWS or any other environment.<br>
 <br>
@@ -112,19 +113,17 @@ were your machines' pool increases and decreases dinamically.<br>
 - Done: convert original scripts to github while creating documentation<br>
 - Done: instructions for non-chef users<br>
 - Done: instructions for multiple AWS accounts<br>
-- Done: test an complete deploy<br>
-- Done: update the documentation<br>
+- Done: test a complete deploy<br>
+- Done: update the documentation after the deploy<br>
 <br>
 <h2>Components</h2>
-- cloudwatch template, script and chef automation<br>
-&nbsp;&nbsp;&nbsp;pre-configured for Total account usage, RDS and AutoScaling 
-- linux basic template with abstractions and some EC2 optimizations<br>
-- varnish template using trapper items examples for better consistency,<br>
-&nbsp;&nbsp;&nbsp;speed and distribution will be the base for auto-register and de-register examples<br>
-- varnish aggregation template using calculated items by groups<br>
-&nbsp;&nbsp;&nbsp;to have a capacity overview of the group and to persist volatile instances data<br>
-- auto-register for bootstrapping <br>
-- auto de-register<br>
+<li> cloudwatch template, script and chef automation, pre-configured for Total account usage, RDS and AutoScaling 
+<li> linux basic template with abstractions and some EC2 optimizations
+<li> varnish template using trapper items examples for better consistency, speed and distribution will be the base for auto-register and de-register examples
+<li> varnish aggregation template using calculated items by groups to have a capacity overview of the group and to persist volatile instances data
+<li> auto-register for bootstrapping
+<li> auto de-register
+<br>
 <br>
 <h2>TODO/Limitations/Known issues:</h2>
 - use more python, specially for de-registration<br>
