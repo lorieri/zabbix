@@ -46,70 +46,93 @@
       <span class="small">by <a href="http://github.com/lorieri">lorieri</a></span></h1>
 
     <div class="description">
-      zabbix templates, scripts, and chef automations usable POC for aws deploys
+	POC for AWS monitoring using Zabbix and Chef automation
     </div>
 
 <h2>About</h2>
-This is an usable prove of concept on how to manage an efficient monitoring
-over AWS installations.<br>
+This is an usable proof of concept on how to manage an efficient monitoring
+over AWS installations using the Zabbix monitoring tool from Zabbix SIA. 
+You can find more information about Zabbix at www.zabbix.com.<br>
 <br>
-It shows concepts on how to aggregate and persist values of volatile instances
-creation and destruction and still be able to plan for best resources usage<br>
+100% tested (by me only)<br>
+100% documented, but you need to know AWS, Zabbix and Chef<br>
+100% templated<br>
+100% automated (as possible)<br>
 <br>
-Another concept shown is the usage of trapper items to have get all items
-values in a host at same time and have better notion of that given host
-helping build better calculations and comparsions, for example for 
-success/error ratings and backend/cached/user requests <br>
+It has 6 main goals:<br>
+  <li> Templatization
+  <li> Aggregation
+  <li> Resources optimization
+  <li> Abstraction
+  <li> Auto-register, auto-deregister
+  <li> Chef automation 
 <br>
-It has a modificated Linux basic template that abstracts values make it
-easier to use templates for all machines you have, and includes the cpu steal
-time that is important for vms and Amazon instances<br>
+Those concepts are not new nor invented by me, but here you can find an easy
+way to implement them either for AWS or any other environment.<br>
 <br>
-The last feature is the auto-registration and auto-de-registration of the
-machines. Registration can be explored not only for amazon, but especially
-for environments controled by automations, like Chef. Deregistration is based
-on Amazon AWS, specially the autoscaling service were your machines' pool
-increase and decrease dinamically <br>
+
+<b>Templatization</b><br>
 <br>
-Please use Zabbix > 1.8.5, for ubuntu you can get it from here<br>
-http://packages.ubuntu.com/oneiric/zabbix-agent<br>
-Minor version has api problems<br>
+Shows how can the entire Zabbix configuration be templatized, exploring this
+awesome Zabbix's feature.<br>
 <br>
-If you like opscode's chef, start with this coockbook, my cookbook extend its
-features:<br>
-http://community.opscode.com/cookbooks/zabbix<br>
+<b>Aggregation</b><br>
+<br>
+By aggregating groups it is easy to manage and persist values of volatile
+AWS instances creation and destruction, and still be able to plan for best
+resources usage. It is similiar as how Cloudwatch do, but lasts longer than
+few weeks.<br>
+<br>
+
+<b>Resources optimization</b><br>
+<br>
+By using trapper items ("listeners"), show how to send all the values at same
+time from the zabbix_sender tool. It helps to get snapshots of a moment and
+make calculations more accurate. It also avoids long configurations in the
+agent side.<br>
+By trying to use only the built-in agent items to build the LinuxBasic template.<br>
+<br>
+
+<b>Abstraction</b><br>
+<br>
+By modificating the default Linux template adding some more abstraction making
+it easier to use the same template for all machines you have. It also includes
+the cpu steal time that is important for vms and EC2 Amazon instances.<br>
+<br>
+
+<b>Auto-register, auto-deregister</b><br>
+<br>
+Not only building a script for auto-registration, but showing how to make it 
+efficient exploring the goals above. The script is also based in the Zabbix's
+API. Deregistration is based on Amazon AWS, specially the autoscaling service
+were your machines' pool increases and decreases dinamically.<br>
+<br>
 
 <h2>Plan</h2>
-- convert original scripts to github while creating documentation<br>
-- instructions for non-chef users<br>
-- test an complete deploy<br>
-- update the documentation<br>
+- Done: convert original scripts to github while creating documentation<br>
+- Done: instructions for non-chef users<br>
+- Done: instructions for multiple AWS accounts<br>
+- Done: test an complete deploy<br>
+- Done: update the documentation<br>
 <br>
-<h2>Done:</h2>
-- <font color=red>TESTED</font>-> cloudwatch template, script and chef automation<br>
-- <font color=red>TESTED</font>-> linux basic template with abstractions and some EC2 optimizations<br>
-- <font color=red>TESTED</font>-> varnish template using trapper items examples for better consistency,<br>
+<h2>Components</h2>
+- cloudwatch template, script and chef automation<br>
+&nbsp;&nbsp;&nbsp;pre-configured for Total account usage, RDS and AutoScaling 
+- linux basic template with abstractions and some EC2 optimizations<br>
+- varnish template using trapper items examples for better consistency,<br>
 &nbsp;&nbsp;&nbsp;speed and distribution will be the base for auto-register and de-register examples<br>
-- <font color=red>TESTED</font>-> varnish aggregation template using calculated items by groups<br>
+- varnish aggregation template using calculated items by groups<br>
 &nbsp;&nbsp;&nbsp;to have a capacity overview of the group and to persist volatile instances data<br>
-- <font color=red>TESTED</font>-> auto-register for bootstrapping <br>
-- <font color=red>TESTED</font>-> auto de-register<br>
+- auto-register for bootstrapping <br>
+- auto de-register<br>
 <br>
 <h2>TODO/Limitations/Known issues:</h2>
-- better instructions for multiple aws accounts<br>
-- more info about aggregations and capacity view by groups and its relation to dead instances<br>
-- update the cloudwatch template to trigger the de-registration script passing {mygroup} and<br>
-&nbsp;&nbsp;&nbsp;{myaccount} and intructions to use multiple groups and mulitple accounts<br>
 - use more python, specially for de-registration<br>
 - fix the max of 5 AWS accounts silly limitation<br>
-- make better and centralized documentation<br>
+- make a centralized documentation<br>
 - build a step-by-step walkthrough<br>
-- put all variables in the chef's attributes<br>
-- build a script to generate the scripts independent of chef for manual instaltion or to<br>
-&nbsp;&nbsp;be used with another automation tool<br>
 - improve the calculate itens for low traffic machines don't divide by zero and disable<br>
 &nbsp;&nbsp;the item/trigger for a while <br>
-- <b>test an complete deploy</b><br>
 <br>
 </p>
 <h2>Dependencies</h2>
