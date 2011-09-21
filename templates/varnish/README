@@ -9,7 +9,9 @@ Examples of:
 
 Requirenments: 
 
- - Varnish installed in the server 
+ - Varnish installed in the server
+ - The hosts must be linked to LinuxBasic template to aggregate CPU, MEM, IO,
+   and Traffic usage
 
 Notes:
 

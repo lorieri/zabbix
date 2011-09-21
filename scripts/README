@@ -1,2 +1,11 @@
 Please check the templates README instructions to find information on how to
-install it manually 
+install it manually
+
+Basically all you need is:
+
+ - Copy all .sh or .py scripts to /usr/local/bin
+ - Copy all .conf files to /etc/zabbix/agentd.d/
+ - Put the line below in your /etc/zabbix/zabbix_agentd.conf
+        Include=/etc/zabbix/agentd.d/
+ - Import all templates into your Zabbix server
+ - Link them to your hosts

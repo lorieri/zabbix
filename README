@@ -72,7 +72,7 @@ Dirs:
  templates/  <- zabbix templates and installations instructions
  chef/       <- chef cookbooks, roles examples and 
  		auto-register instructions
- scripts/    <- instruction to go to the templates READMEs :P
+ scripts/    <- very basic instruction 
 
 
 TODO/Limitations/Known issues:
