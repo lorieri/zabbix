@@ -84,7 +84,7 @@
           <comments></comments>
         </trigger>
         <trigger>
-          <description>Less than the minumum required machines in the Autoscaling pool</description>
+          <description>Less than the minimum required machines in the Autoscaling pool</description>
           <type>0</type>
           <expression>{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupInServiceInstances,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}&lt;{Template_Cloudwatch:cloudwatch.dimension[{$MYACCOUNT},GroupMinSize,AWS/AutoScaling,Maximum,AutoScalingGroupName={$AUTOSCALINGGROUPNAME}].last(0)}</expression>
           <url></url>
