@@ -63,7 +63,7 @@ Please use Zabbix > 1.8.5, for ubuntu you can get it from here
 http://packages.ubuntu.com/oneiric/zabbix-agent
 Minor version has some api problems
 
-If you like opscode's chef, start with this coockbook, my cookbook extend its
+If you like opscode's chef, start with this cookbook. My cookbook extend its
 features:
 http://community.opscode.com/cookbooks/zabbix
 
