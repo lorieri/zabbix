@@ -2,6 +2,7 @@
 
 if not expected_tag
 	expected_tag="REGISTERED"
+end
 
 node[:tags].each do |p|
         if p =~ /^zabbix/
